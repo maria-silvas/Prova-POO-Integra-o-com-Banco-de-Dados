@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Aviao extends Aeoroporto {
+public class Aviao extends Aeoronave {
     private NumeroGeneric<String, Integer> prefixo;
     private String marca;
     private String modelo;
@@ -9,7 +9,7 @@ public class Aviao extends Aeoroporto {
     public static ArrayList<Aviao> aviaos = new ArrayList<Aviao>();
 
     public Aviao(int id, String nome, NumeroGeneric<String, Integer> placa, String marca) {
-        super(id, nome);
+        super();
         try{
             if(aviaos.isEmpty()){        
                 this.prefixo = prefixo;
@@ -60,6 +60,7 @@ public class Aviao extends Aeoroporto {
         return false;
     }
 
+    
     @Override
     public String toString() {
         return super.toString() + "Placa: " + this.prefixo + "| Cor: " + this.marca + "| Modelo: " + this.modelo + "| Capacidade: " + this.capacidade;

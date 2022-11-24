@@ -19,7 +19,7 @@ public class NumeroGeneric<S, N extends Number> {
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        NumeroGeneric<S, N> NumeroGeneric = (NumeroGeneric<S, N>) o;
+        NumeroGeneric<S, N> NumeroGeneric = ( NumeroGeneric <S, N> ) o;
         if (this.numero.equals(NumeroGeneric.numero) && this.texto.equals(NumeroGeneric.texto)) {
             return true;
         }
