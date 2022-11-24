@@ -9,7 +9,7 @@ public class Aviao extends Aeoronave {
     public static ArrayList<Aviao> aviaos = new ArrayList<Aviao>();
 
     public Aviao(int id, String nome, NumeroGeneric<String, Integer> placa, String marca) {
-        super();
+        super(id, marca);
         try{
             if(aviaos.isEmpty()){        
                 this.prefixo = prefixo;

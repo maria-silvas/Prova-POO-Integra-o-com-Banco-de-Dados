@@ -1,19 +1,20 @@
+
 import java.util.ArrayList;
 
-public abstract class Aeronave {
+public abstract class Aeoronave {
     private int id;
     private String nome;
     
 
-    public static ArrayList< Aeronave> aeronaves = new ArrayList<Aeronave>();
+    public static ArrayList< Aeoronave> aeoronaves = new ArrayList<Aeoronave>();
 
 
     
-    protected Aeronave (int id, String nome) {
+    protected Aeoronave(int id, String nome) {
         this.id = id;
         this.nome = nome;
         
-        aeronaves.add(this);
+        aeoronaves.add(this);
     }
 
     public int getId() {
