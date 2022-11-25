@@ -8,29 +8,27 @@ public class Hangar {
     public static ArrayList<Hangar> hangares = new ArrayList<Hangar>();
 
     public void Vaga(int id, NumeroGeneric<String, Integer> hangar, String local, String tamanho, double preco) {
-        try{
-            if(hangares.isEmpty()){        
+        try {
+            if (hangares.isEmpty()) {
                 this.id = id;
                 this.hangar = hangar;
                 this.local = local;
 
-        
                 hangares.add(this);
-            }else if(!hangares.isEmpty()){
-                for(Hangar vg : hangares){
-                    if(vg.getHangar().equals(hangar)){
+            } else if (!hangares.isEmpty()) {
+                for (Hangar vg : hangares) {
+                    if (vg.getHangar().equals(hangar)) {
                         throw new Exception("Hangar já cadastrada");
-                    }else{
+                    } else {
                         this.id = id;
                         this.hangar = hangar;
                         this.local = local;
 
-                
                         hangares.add(this);
                     }
                 }
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
@@ -43,7 +41,7 @@ public class Hangar {
         this.id = id;
     }
 
-    public NumeroGeneric<String, Integer>  getHangar() {
+    public NumeroGeneric<String, Integer> getHangar() {
         return this.hangar;
     }
 
@@ -74,9 +72,9 @@ public class Hangar {
         return null;
     }
 
-    public Boolean verificaHangar(NumeroGeneric<String, Integer> hangar){
-        for(Hangar vagaPesquisa: hangares){
-            if( vagaPesquisa.getHangar().equals(hangar) == true){
+    public Boolean verificaHangar(NumeroGeneric<String, Integer> hangar) {
+        for (Hangar vagaPesquisa : hangares) {
+            if (vagaPesquisa.getHangar().equals(hangar) == true) {
                 return true;
             }
         }

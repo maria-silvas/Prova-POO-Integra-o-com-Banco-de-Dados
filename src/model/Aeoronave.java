@@ -4,16 +4,13 @@ import java.util.ArrayList;
 public abstract class Aeoronave {
     private int id;
     private String nome;
-    
 
-    public static ArrayList< Aeoronave> aeoronaves = new ArrayList<Aeoronave>();
+    public static ArrayList<Aeoronave> aeoronaves = new ArrayList<Aeoronave>();
 
-
-    
     protected Aeoronave(int id, String nome) {
         this.id = id;
         this.nome = nome;
-        
+
         aeoronaves.add(this);
     }
 
@@ -30,7 +27,7 @@ public abstract class Aeoronave {
     }
 
     public void setNome(String nome) {
-        this.nome= nome;
+        this.nome = nome;
     }
 
     @Override
