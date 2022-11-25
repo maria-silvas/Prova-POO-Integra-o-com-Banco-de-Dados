@@ -57,5 +57,3 @@ public class AeroportoDAO {
                 modelo,
                 prefixo);
     }
-
-   
