@@ -1,5 +1,5 @@
 // Criando o programa principal do sistema.
-public class MainPadaria {
+public class MainAeoroporto {
 
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
