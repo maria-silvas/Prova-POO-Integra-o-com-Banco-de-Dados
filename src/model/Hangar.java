@@ -6,7 +6,7 @@ public class Hangar {
     private static NumeroGeneric<String, Integer> hangar;
 
     public static ArrayList<Hangar> hangares = new ArrayList<Hangar>();
-44
+
     public void Vaga(int id, NumeroGeneric<String, Integer> hangar, String local, String tamanho, double preco) {
         try {
             if (hangares.isEmpty()) {
