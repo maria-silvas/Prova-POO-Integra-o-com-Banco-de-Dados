@@ -7,11 +7,12 @@ public class Aviao extends Aeoronave {
     private String capacidade;
     private Companhia companhia;
     
+    public static ArrayList <Aviao> aviaos = new ArrayList<Aviao>();
 
     public Aviao(int id, String nome, NumeroGeneric<String, Integer> placa, String marca, int idCompanhia) {
         super(id, marca);
         try {
-            if (Aviao.isEmpty()) {
+            if (aviaos.isEmpty()) {
                 this.prefixo = prefixo;
                 this.marca = marca;
                 this.modelo = modelo;
@@ -36,6 +37,10 @@ public class Aviao extends Aeoronave {
             System.out.println(e.getMessage());
         }
 
+    }
+
+    private static boolean isEmpty() {
+        return false;
     }
 
     public NumeroGeneric<String, Integer> getPrefixo() {

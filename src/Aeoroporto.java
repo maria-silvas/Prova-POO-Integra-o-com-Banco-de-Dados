@@ -40,7 +40,7 @@ public class Aeoroporto {
                 case 1:
                     try {
                         AeroportoDao.printAviao(
-                                AeroportoDao.getAviaoS());
+                                AeroportoDao.getAviao());
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
