@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
-import model.Cliente;
+import model.AeroportoDao;
 
 // Criando a classe DAO.
 public class AeroportoDao {
