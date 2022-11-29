@@ -37,6 +37,26 @@ public class Jato<Int> extends Aeoronave {
         this.velocidade = velocidade;
     }
 
+    public static Jato getJatoById(int id) {
+        for (Jato jato : Jato.jatos) {
+            if (jato.id == id) {
+                return jato;
+            }
+        }
+
+        return null;
+    }
+
+    public static Jato deleteJatoById(int id) {
+        for (Jato jato : Jato.jatos) {
+            if (jato.id == id) {
+                Jato.jatos.remove(jato);
+                return jato;
+            }
+        }
+
+        return null;
+    }
     @Override
     public String toString() {
         return super.toString() + "| Cor" + this.cor + "| Velocidade"
