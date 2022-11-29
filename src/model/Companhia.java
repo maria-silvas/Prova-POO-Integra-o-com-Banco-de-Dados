@@ -1,34 +1,24 @@
 import java.util.ArrayList;
 
 public class Companhia {
-    private static final ArrayList<Aviao> companhias = null;
-    private int idCompanhia;
     private String nome;
     private String cnpj;
+    private int id;
 
-    public static ArrayList<Aviao> aviaos = new ArrayList<Aviao>();
+    public static ArrayList<Companhia> companhias = new ArrayList<Companhia>();
 
-    public Companhia(int idCompanhia, String nome, String cnpj) {
-        this.idCompanhia = idCompanhia;
+    public Companhia(int id, String nome, String cnpj) {
         this.nome = nome;
         this.cnpj = cnpj;
 
         companhias.add(this);
     }
 
-    public int getIdCompanhia() {
-        return idCompanhia;
-    }
-
-    public void setIdCompanhia(int idCompanhia) {
-        this.idCompanhia = idCompanhia;
-    }
-
-    public String getNome() {
+    public String getMarca() {
         return nome;
     }
 
-    public void setNome(String nome) {
+    public void setMarca(String nome) {
         this.nome = nome;
     }
 
@@ -40,17 +30,30 @@ public class Companhia {
         this.cnpj = cnpj;
     }
 
-    public ArrayList<Aviao> getAviaos() {
-        return aviaos;
+    public static Companhia getComapnhiaById(int id) {
+        for (Companhia companhia : Companhia.companhias) {
+            if (companhia.id == id) {
+                return companhia;
+            }
+        }
+
+        return null;
     }
 
-    public void setAviaos(ArrayList<Aviao> aviaos) {
-        this.aviaos = aviaos;
+    public static Companhia deleteComapnhiaById(int id) {
+        for (Companhia companhia : Companhia.companhias) {
+            if (companhia.id == id) {
+                Companhia.companhias.remove(companhia);
+                return companhia;
+            }
+        }
+
+        return null;
     }
 
     @Override
     public String toString() {
-        return super.toString() + "Marca" + this.nome + "| Cor" + this.cnpj;
+        return super.toString() + "Nome: " + this.nome + "| Cnpj:" + this.cnpj;
     }
 
 }

@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 
 public class Hangar {
@@ -11,7 +12,6 @@ public class Hangar {
         try {
             if (hangares.isEmpty()) {
                 this.id = id;
-                this.hangar = hangar;
                 this.local = local;
 
                 hangares.add(this);
@@ -21,7 +21,6 @@ public class Hangar {
                         throw new Exception("Hangar já cadastrada");
                     } else {
                         this.id = id;
-                        this.hangar = hangar;
                         this.local = local;
 
                         hangares.add(this);
@@ -33,6 +32,10 @@ public class Hangar {
         }
     }
 
+    private Object getHangar() {
+        return null;
+    }
+
     public int getId() {
         return this.id;
     }
@@ -41,13 +44,14 @@ public class Hangar {
         this.id = id;
     }
 
-    public Prefixo<String, Integer> getHangar() {
-        return this.hangar;
-    }
+    // Pegar este cara dos hangares
+    // public Prefixo<String, Integer> getHangar() {
+    //     return this.hangar;
+    // }
 
-    public void setHangar(Prefixo<String, Integer> hangar) {
-        this.hangar = hangar;
-    }
+    // public void setHangar(Prefixo<String, Integer> hangar) {
+    //     this.hangar = hangar;
+    // }
 
     public String getLocal() {
         return this.local;
@@ -72,14 +76,15 @@ public class Hangar {
         return null;
     }
 
-    public Boolean verificaHangar(Prefixo<String, Integer> hangar) {
-        for (Hangar vagaPesquisa : hangares) {
-            if (vagaPesquisa.getHangar().equals(hangar) == true) {
-                return true;
-            }
-        }
-        return false;
-    }
+    // Pegar este cara dos hangares
+    // public Boolean verificaHangar(Prefixo<String, Integer> hangar) {
+    //     for (Hangar vagaPesquisa : hangares) {
+    //         if (vagaPesquisa.getHangar().equals(hangar) == true) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
     public static Prefixo<String, Integer> deleteHangarById(int id) {
         for (Hangar hangares : Hangar.hangares) {
@@ -88,6 +93,8 @@ public class Hangar {
                 return hangar;
             }
         }
+
+        
 
         return null;
     }

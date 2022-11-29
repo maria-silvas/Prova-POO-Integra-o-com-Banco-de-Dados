@@ -1,123 +1,75 @@
 import java.util.ArrayList;
 
+// Cuidado com os extends, Aviao estende de aeronave e não de aeroporto.
 public class Aviao extends Aeoronave {
-    private NumeroGeneric<String, Integer> prefixo;
+    private Prefixo<String, Integer> prefixo;
     private String marca;
     private String modelo;
     private String capacidade;
     private Companhia companhia;
 
-
     public static ArrayList<Aviao> aviaos = new ArrayList<Aviao>();
 
-    public void Aviao() {
-
-    }
-
-    public Aviao(int id, String marca, NumeroGeneric<String, Integer> prefixo, String modelo, String capacidade,
-            int idCompanhia) {
-        super(id, marca);
-        try {
-            if (aviaos.isEmpty()) {
+    public Aviao(int id, String nome, Prefixo<String, Integer> placa, String marca, int idCompanhia) {
+        super(id, nome);
+        try{
+            if(aviaos.isEmpty()){        
                 this.prefixo = prefixo;
                 this.marca = marca;
-                this.modelo = modelo;
-
+        
                 aviaos.add(this);
-            } else if (!aviaos.isEmpty())
-                for (Aviao aviao : aviaos) {
-                    if (aviao.getPrefixo().equals(prefixo)) {
+            }else if(!aviaos.isEmpty())
+                for(Aviao aviao : aviaos){
+                    if(aviao.getPrefixo().equals(prefixo)){
                         throw new Exception("Prefixo já cadastradao");
-                    } else {
-                        this.prefixo = prefixo;
+                    }else{
+                    this.prefixo = prefixo;
                         this.marca = marca;
-                        this.modelo = modelo;
-
+                
                         aviaos.add(this);
                     }
-                }
-            else {
+            }else{
                 throw new Exception("Aviao já cadastrado");
             }
-        } catch (Exception e) {
+        }catch(Exception e){
             System.out.println(e.getMessage());
         }
 
     }
 
-    public Aviao(String modelo, NumeroGeneric<String,Integer> prefixo, String capacidade,
-            int idCompanhia) {
-    }
-
-    private static boolean isEmpty() {
-        return false;
-    }
-
-    public NumeroGeneric<String, Integer> getPrefixo() {
+    public Prefixo<String, Integer> getPrefixo() {
         return prefixo;
     }
 
-    public void setPlaca(NumeroGeneric<String, Integer> prefixo) {
+    public void setPlaca(Prefixo<String, Integer> prefixo) {
         this.prefixo = prefixo;
     }
 
-    public String getMarca() {
+    public String getCor() {
         return marca;
     }
 
-    public void setMarca(String marca) {
+    public void setCor(String marca) {
         this.marca = marca;
     }
 
-    public String getModelo() {
-        return modelo;
-    }
-
-    public void setModelo(String modelo) {
-        this.modelo = modelo;
-    }
-
-    public String getCapacidade() {
-        return capacidade;
-    }
-
-    public void setCagetCapacidade(String marca) {
-        this.capacidade = capacidade;
-    }
-
-    public Companhia getCompanhia() {
-        return companhia;
-    }
-
-    public void setCompanhia(Companhia companhia) {
-        this.companhia = companhia;
-    }
-
-    public Aviao id(int id) {
-        setIdAeronave(id);
-        return this;
-    }
-
-    private void setIdAeronave(int id) {
-    }
-
-    public Aviao marca(String marca) {
-        setMarca(marca);
-        return this;
-    }
-
-    public Aviao CompanhiaId(Companhia com) {
-        setCompanhia(companhia);
-        return this;
-    }
-
-    public Boolean verificaPrefixo(NumeroGeneric<String, Integer> prefixo) {
-        for (Aviao aviao : aviaos) {
-            if (aviao.getPrefixo().equals(prefixo) == true) {
+    public Boolean verificaPrefixo(Prefixo<String, Integer> prefixo){
+        for(Aviao aviao: aviaos){
+            if( aviao.getPrefixo().equals(prefixo) == true){
                 return true;
             }
         }
         return false;
+    }
+
+    public static Aviao getAviaoById(int id) {
+        for (Aviao aviao : Aviao.aviaos) {
+            if (aviao.id == id) {
+                return aviao;
+            }
+        }
+
+        return null;
     }
 
     public static Aviao deleteAviaoById(int id) {
@@ -127,15 +79,11 @@ public class Aviao extends Aeoronave {
                 return aviao;
             }
         }
-
         return null;
-    }
-
-
+        }
 
     @Override
     public String toString() {
-        return super.toString() + "Placa: " + this.prefixo + "| Marca: : " + this.marca + "| Modelo: " + this.modelo
-                + "| Capacidade: " + this.capacidade + "| Companhia: " + getCompanhia().getIdCompanhia();
+        return super.toString() + "Placa: " + this.prefixo + "| Cor: " + this.marca + "| Modelo: " + this.modelo + "| Capacidade: " + this.capacidade;
     }
 }
