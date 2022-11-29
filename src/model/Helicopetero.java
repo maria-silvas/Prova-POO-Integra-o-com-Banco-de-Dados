@@ -35,6 +35,27 @@ public class Helicopetero extends Aeoronave {
 
     }
 
+    public static Helicopetero getHelicopeteroyId(int id) {
+        for (Helicopetero helicopetero : Helicopetero.helicopeteros) {
+            if (helicopetero.id == id) {
+                return helicopetero;
+            }
+        }
+
+        return null;
+    }
+
+    public static Helicopetero deleteHelicopeteroById(int id) {
+        for (Helicopetero helicopetero : Helicopetero.helicopeteros) {
+            if (helicopetero.id == id) {
+                Helicopetero.helicopeteros.remove(helicopetero);
+                return helicopetero;
+            }
+        }
+
+        return null;
+    }
+
     @Override
     public String toString() {
         return super.toString() + "| Cor" + this.cor +
