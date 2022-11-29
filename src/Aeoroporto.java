@@ -13,47 +13,44 @@ public class Aeoroporto {
         Scanner scanner = new Scanner(System.in);
         int menu = 0;
         // Criando os menus de escolha do Crud 
-        
+        Scanner sc = new Scanner(System.in);
+        int op = 0;
+
         do {
             System.out.println("Sistema de cadastro geral e acesso do Aeroporto: ");
             System.out.println("\n");
           
-            System.out.println("Digite a opção desejada: ");
-            System.out.println("1. CADASTRAR Aviao");
-            System.out.println("2. INCLUIR Aviao");
-            System.out.println("3. LISTAR Aviao");
-            System.out.println("4. Deletar Aviao ");
-            
-            System.out.println("5. CADASTRAR Helicopetero  ");
-            System.out.println("6. INCLUIR Helicopetero  ");
-            System.out.println("7. LISTAR Helicopetero  ");
-            System.out.println("8. Deletar Helicopetero  ");
+            System.out.println("\n\n[01] - Cadastrar Aviao");
+            System.out.println("[02] - Cadastrar Jato");
+            System.out.println("[03] - Cadastrar Helicopetero");
+            System.out.println("[04] - Cadastrar Hangar");
+            System.out.println("[05] - Cadastrar Companhia");
+            System.out.println("[06] - Cadastrar Pista");
+            System.out.println("[07] - Cadastrar VOO");
+            System.out.println("[08] - Inserir Aviao");
+            System.out.println("[09] - Inserir Jato");
+            System.out.println("[10] - Inserir Helicopetero");
+            System.out.println("[11] - Inserir Hangar");
+            System.out.println("[12] - Inserir Companhia");
+            System.out.println("[13] - Inserir Pista");
+            System.out.println("[14] - Inserir VOO");
+            System.out.println("[15] - Listar Aviao");
+            System.out.println("[16] - Listar Jato");
+            System.out.println("[17] - Listar Helicopetero");
+            System.out.println("[18] - Listar Hangar");
+            System.out.println("[19] - Listar Companhia");
+            System.out.println("[20] - Listar Pista");
+            System.out.println("[21] - Listar VOO");
+            System.out.println("[22] - Excluir Aviao");
+            System.out.println("[23] - Excluir Jato");
+            System.out.println("[24] - Excluir Helicopetero");
+            System.out.println("[25] - Excluir Hangar");
+            System.out.println("[26] - Excluir Companhia");
+            System.out.println("[27] - Excluir Pista");
+            System.out.println("[28] - Excluir VOO");
+            System.out.println("[29] - Sair");
+            op = sc.nextInt();
 
-            System.out.println("5. CADASTRAR Jato");
-            System.out.println("6. INCLUIR Jato");
-            System.out.println("7. LISTAR Jato");
-            System.out.println("8. Deletar Jato");
-
-            System.out.println("5. CADASTRAR Hangar  ");
-            System.out.println("6. INCLUIR Hangar  ");
-            System.out.println("7. LISTAR Hangar  ");
-            System.out.println("8. Deletar Hangar  ");
-
-            System.out.println("5. CADASTRAR Companhia ");
-            System.out.println("6. INCLUIR Companhia ");
-            System.out.println("7. LISTAR Companhia ");
-            System.out.println("8. Deletar Companhia ");
-
-
-            System.out.println("5. CADASTRAR Pista  ");
-            System.out.println("6. INCLUIR Pista  ");
-            System.out.println("7. LISTAR Pista  ");
-            System.out.println("8. Deletar Pista  ");
-
-            System.out.println("5. CADASTRAR VOO  ");
-            System.out.println("6. INCLUIR VOO  ");
-            System.out.println("7. LISTAR VOO  ");
-            System.out.println("8. Deletar VOO  ");
             System.out.println("\n");
             System.out.println("\n");
 
