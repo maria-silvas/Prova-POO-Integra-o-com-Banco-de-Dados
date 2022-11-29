@@ -17,7 +17,18 @@ public class Voo {
 
     public static ArrayList<Voo> voos = new ArrayList<Voo>();
 
-    public Voo(int id, LocalDate data, LocalTime hora, int idAeronave, int idPista) {
+    // Presta atenção nos dados do construtor, tinha coisa faltando aqui
+    public Voo(int id,
+            int numero,
+            LocalDate data,
+            LocalTime hora,
+            String origem,
+            String destino,
+            String piloto,
+            String copiloto,
+            String observacao,
+            int idPista,
+            int idAeronave) {
         this.id = id;
         this.numero = numero;
         this.data = data;
