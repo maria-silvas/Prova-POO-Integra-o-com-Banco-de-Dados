@@ -3,11 +3,11 @@ import java.util.ArrayList;
 public class Hangar {
     private int id;
     private String local;
-    private static NumeroGeneric<String, Integer> hangar;
+    private static Prefixo<String, Integer> hangar;
 
     public static ArrayList<Hangar> hangares = new ArrayList<Hangar>();
 
-    public void Vaga(int id, NumeroGeneric<String, Integer> hangar, String local, String tamanho, double preco) {
+    public void Vaga(int id, Prefixo<String, Integer> hangar, String local, String tamanho, double preco) {
         try {
             if (hangares.isEmpty()) {
                 this.id = id;
@@ -41,11 +41,11 @@ public class Hangar {
         this.id = id;
     }
 
-    public NumeroGeneric<String, Integer> getHangar() {
+    public Prefixo<String, Integer> getHangar() {
         return this.hangar;
     }
 
-    public void setHangar(NumeroGeneric<String, Integer> hangar) {
+    public void setHangar(Prefixo<String, Integer> hangar) {
         this.hangar = hangar;
     }
 
@@ -72,7 +72,7 @@ public class Hangar {
         return null;
     }
 
-    public Boolean verificaHangar(NumeroGeneric<String, Integer> hangar) {
+    public Boolean verificaHangar(Prefixo<String, Integer> hangar) {
         for (Hangar vagaPesquisa : hangares) {
             if (vagaPesquisa.getHangar().equals(hangar) == true) {
                 return true;
@@ -81,7 +81,7 @@ public class Hangar {
         return false;
     }
 
-    public static NumeroGeneric<String, Integer> deleteHangarById(int id) {
+    public static Prefixo<String, Integer> deleteHangarById(int id) {
         for (Hangar hangares : Hangar.hangares) {
             if (hangares.id == id) {
                 Hangar.hangares.remove(hangares);
