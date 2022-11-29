@@ -6,10 +6,16 @@ public class Aviao extends Aeoronave {
     private String modelo;
     private String capacidade;
     private Companhia companhia;
-    
-    public static ArrayList <Aviao> aviaos = new ArrayList<Aviao>();
 
-    public Aviao(int id, String nome, NumeroGeneric<String, Integer> placa, String marca, int idCompanhia) {
+
+    public static ArrayList<Aviao> aviaos = new ArrayList<Aviao>();
+
+    public void Aviao() {
+
+    }
+
+    public Aviao(int id, String marca, NumeroGeneric<String, Integer> prefixo, String modelo, String capacidade,
+            int idCompanhia) {
         super(id, marca);
         try {
             if (aviaos.isEmpty()) {
@@ -37,6 +43,10 @@ public class Aviao extends Aeoronave {
             System.out.println(e.getMessage());
         }
 
+    }
+
+    public Aviao(String modelo, NumeroGeneric<String,Integer> prefixo, String capacidade,
+            int idCompanhia) {
     }
 
     private static boolean isEmpty() {
@@ -110,9 +120,22 @@ public class Aviao extends Aeoronave {
         return false;
     }
 
+    public static Aviao deleteAviaoById(int id) {
+        for (Aviao aviao : Aviao.aviaos) {
+            if (aviao.id == id) {
+                Aviao.aviaos.remove(aviao);
+                return aviao;
+            }
+        }
+
+        return null;
+    }
+
+
+
     @Override
     public String toString() {
-        return super.toString() + "Placa: " + this.prefixo + "| Cor: " + this.marca + "| Modelo: " + this.modelo
+        return super.toString() + "Placa: " + this.prefixo + "| Marca: : " + this.marca + "| Modelo: " + this.modelo
                 + "| Capacidade: " + this.capacidade + "| Companhia: " + getCompanhia().getIdCompanhia();
     }
 }

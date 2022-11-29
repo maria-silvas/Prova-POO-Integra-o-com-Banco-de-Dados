@@ -2,14 +2,26 @@
 import java.util.ArrayList;
 
 public abstract class Aeoronave {
-    private int id;
-    private String nome;
+    protected int id;
+    protected String marca;
+    protected String modelo;
 
     public static ArrayList<Aeoronave> aeoronaves = new ArrayList<Aeoronave>();
 
-    protected Aeoronave(int id, String nome) {
+    public void  Aeoronave(){
+
+    }
+
+    public Aeoronave(int id2, String modelo) {        
+        this.marca = id2;
+        this.modelo=modelo;
+
+        aeoronaves.add(this);
+    }
+    public Aeoronave(int id, String marca, String modelo) {
         this.id = id;
-        this.nome = nome;
+        this.marca = marca;
+        this.modelo=modelo;
 
         aeoronaves.add(this);
     }
@@ -22,17 +34,26 @@ public abstract class Aeoronave {
         this.id = id;
     }
 
-    public String getNome() {
-        return this.nome;
+    public String getMarca() {
+        return this.marca;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+
+    public String getModelo() {
+        return this.marca;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
     }
 
     @Override
     public String toString() {
-        return "Id: " + this.id + " | Nome: " + this.nome;
+        return "Id: " + this.id + " | marca: " + this.marca;
     }
 
 }
