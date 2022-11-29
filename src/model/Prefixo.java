@@ -19,8 +19,8 @@ public class Prefixo<S, N extends Number> {
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        Prefixo<S, N> NumeroGeneric = (Prefixo<S, N>) o;
-        if (this.numero.equals(NumeroGeneric.numero) && this.texto.equals(NumeroGeneric.texto)) {
+        Prefixo<S, N> Prefixo = (Prefixo<S, N>) o;
+        if (this.numero.equals(Prefixo.numero) && this.texto.equals(Prefixo.texto)) {
             return true;
         }
         return false;

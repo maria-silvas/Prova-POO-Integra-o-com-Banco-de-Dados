@@ -3,19 +3,18 @@ import java.util.ArrayList;
 // Cuidado com os extends, Aviao estende de aeronave e não de aeroporto.
 public class Aviao extends Aeoronave {
     private Prefixo<String, Integer> prefixo;
-    private String marca;
-    private String modelo;
     private String capacidade;
     private Companhia companhia;
 
     public static ArrayList<Aviao> aviaos = new ArrayList<Aviao>();
 
-    public Aviao(int id, String nome, Prefixo<String, Integer> placa, String marca, int idCompanhia) {
-        super(id, nome);
+    public Aviao(int id, Prefixo<String, Integer> prefixo, String marca, String modelo, Companhia companhia, String capacidade) {
+        super(id, marca, modelo);
         try{
             if(aviaos.isEmpty()){        
                 this.prefixo = prefixo;
-                this.marca = marca;
+                this.capacidade = capacidade;
+                this.companhia = companhia;
         
                 aviaos.add(this);
             }else if(!aviaos.isEmpty())
@@ -24,7 +23,8 @@ public class Aviao extends Aeoronave {
                         throw new Exception("Prefixo já cadastradao");
                     }else{
                     this.prefixo = prefixo;
-                        this.marca = marca;
+                        this.capacidade = capacidade;
+                        this.companhia = companhia;
                 
                         aviaos.add(this);
                     }
@@ -41,17 +41,20 @@ public class Aviao extends Aeoronave {
         return prefixo;
     }
 
-    public void setPlaca(Prefixo<String, Integer> prefixo) {
+    public void setPrefixo(Prefixo<String, Integer> prefixo) {
         this.prefixo = prefixo;
     }
 
-    public String getCor() {
-        return marca;
+    public String getCapacidade() {
+        return capacidade;
     }
 
-    public void setCor(String marca) {
-        this.marca = marca;
+
+    public void setCapacidade(String capacidade) {
+        this.capacidade = capacidade;
     }
+
+
 
     public Boolean verificaPrefixo(Prefixo<String, Integer> prefixo){
         for(Aviao aviao: aviaos){
@@ -84,6 +87,6 @@ public class Aviao extends Aeoronave {
 
     @Override
     public String toString() {
-        return super.toString() + "Placa: " + this.prefixo + "| Cor: " + this.marca + "| Modelo: " + this.modelo + "| Capacidade: " + this.capacidade;
+        return super.toString() + "| Id: " + this.id + "Placa: " + this.prefixo + "| Marca: " + this.marca + "| Modelo: " + this.modelo + "| Capacidade: " + this.capacidade + " | IdCompanhia: " + this.companhia;
     }
 }

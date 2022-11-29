@@ -2,6 +2,7 @@
 import java.util.ArrayList;
 
 public abstract class Aeoronave {
+    
     protected int id;
     protected String marca;
     protected String modelo;
@@ -12,13 +13,8 @@ public abstract class Aeoronave {
 
     }
 
-    public Aeoronave(int id2, String modelo) {        
-        this.marca = id2;
-        this.modelo=modelo;
-
-        aeoronaves.add(this);
-    }
-    public Aeoronave(int id, String marca, String modelo) {
+    public Aeoronave(int id, String marca, String modelo) {        
+        
         this.id = id;
         this.marca = marca;
         this.modelo=modelo;
@@ -51,9 +47,25 @@ public abstract class Aeoronave {
         this.modelo = modelo;
     }
 
+    /* 
+    public Boolean verificaAeoronave(Prefixo<String, Integer> prefixo){
+        for(Aeoronave aeronave: aeoronaves){
+            if(aeronave.getAeroave().equals(prefixo) == true){
+                return true;
+            }
+        }
+        return false;
+    }
+
+     */
+
+    private Object getAeroave() {
+        return null;
+    }
+
     @Override
     public String toString() {
-        return "Id: " + this.id + " | marca: " + this.marca;
+        return "Id: " + this.id + " | Marca: " + this.marca + " | Modelo: " + this.modelo;
     }
 
 }

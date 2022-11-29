@@ -3,18 +3,13 @@ import java.util.ArrayList;
 public class Helicopetero extends Aeoronave {
 
     private String cor;
-
     private int capacidade;
-
     public static ArrayList<Helicopetero> helicopeteros = new ArrayList<Helicopetero>();
 
-    public Helicopetero(int id, String nome, String marca, String cor, String modelo, int capacidade) {
-        super(id, nome);
-
+    public Helicopetero(int id, String marca, String cor, String modelo, int capacidade) {
+        super(id, marca, modelo);
         this.cor = cor;
-
         this.capacidade = capacidade;
-
         helicopeteros.add(this);
     }
 
@@ -58,9 +53,7 @@ public class Helicopetero extends Aeoronave {
 
     @Override
     public String toString() {
-        return super.toString() + "| Cor" + this.cor +
-                "| Capacidade: "
-                + this.capacidade;
+     return super.toString() + "| Id: " + this.id + "| Marca: " + this.marca + "| Modelo: " + this.modelo + "| Cor: " + this.cor +"| Capacidade: " + this.capacidade ;
     }
 
 }
