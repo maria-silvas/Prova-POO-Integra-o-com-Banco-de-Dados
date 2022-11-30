@@ -96,7 +96,7 @@ public class Aeroporto {
         } while (op != 29);
     }
 
-    // Cadastros
+    // Cadastrar Avião
     public static void CadastrarAviao(Scanner scanner) {
         Boolean prefixoVerificada = false;
         System.out.println("------Cadastro de Aviao------");
@@ -161,7 +161,7 @@ public class Aeroporto {
         }
 
     }
-
+//Cadastrar Jato
     public static void CadastrarJato(Scanner scanner) {
         System.out.println("Cadastro de Jato");
 
@@ -175,7 +175,7 @@ public class Aeroporto {
 
         System.out.println("Jato cadastrado com sucesso!\n" + jato);
     }
-
+//Cadastrar Helicopetro
     public static void CadastrarHelicopetero(Scanner scanner) {
         System.out.println("Cadastro de Helicopetero");
 
@@ -189,7 +189,7 @@ public class Aeroporto {
 
         System.out.println("Helicopetero cadastrado com sucesso!\n" + helicopetero);
     }
-
+//Cadastro Hangar
     public static void CadastrarHangar(Scanner sc) {
         System.out.println("Cadastro de Hangar");
 
@@ -223,6 +223,6 @@ public class Aeroporto {
 
         Companhia companhia = new Companhia(Companhia.companhias.size() + 1, nome, cnpj);
 
-        System.out.println("Jato cadastrado com sucesso!\n" + companhia);
+        System.out.println("Companhia cadastrada com sucesso!\n" + companhia);
     }
 }
