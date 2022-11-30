@@ -11,6 +11,7 @@ public class Pista {
 
     public Pista(int id, String numero) {
         this.numero = numero;
+        this.id=id;
 
         pistas.add(this);
     }
@@ -47,6 +48,14 @@ public class Pista {
     @Override
     public String toString() {
         return super.toString() + "ID" + this.id + "Numero" + this.numero;
+    }
+
+    public Object getPrefixo() {
+        return null;
+    }
+
+    public int getId() {
+        return 0;
     }
 
 }

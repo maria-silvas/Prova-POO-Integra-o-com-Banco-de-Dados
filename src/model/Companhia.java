@@ -59,4 +59,8 @@ public class Companhia {
         return super.toString() + "Nome: " + this.nome + "| Cnpj:" + this.cnpj;
     }
 
+    public int getId() {
+        return 0;
+    }
+
 }
