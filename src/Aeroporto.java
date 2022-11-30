@@ -4,14 +4,16 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Scanner;
-import dao.AeroportoDao;
-import model.Aeronave;
+
+
 import model.Aeronave;
 import model.Aviao;
 import model.Companhia;
 import model.Helicopetero;
 import model.Jato;
-import model.Prefixo;;
+import model.Prefixo;
+
+import database.DAO;
 
 // Criando o programa principal do sistema.
 public class Aeroporto {
