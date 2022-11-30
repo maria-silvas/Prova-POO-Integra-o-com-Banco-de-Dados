@@ -1,3 +1,5 @@
+package model;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ public class Voo {
     private String copiloto;
     private String observacao;
     private int idPista;
+    private Pista pista;
     private int idAeronave;
 
     public static ArrayList<Voo> voos = new ArrayList<Voo>();

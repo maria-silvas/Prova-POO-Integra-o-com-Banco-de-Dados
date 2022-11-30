@@ -1,24 +1,22 @@
+package model;
+
 import java.util.ArrayList;
 
-public class Jato<Int> extends Aeoronave {
-    
+public class Jato<Int> extends Aeronave {
+
     private String cor;
-   
+
     private int velocidade;
 
     public static ArrayList<Jato> jatos = new ArrayList<Jato>();
 
-    public Jato(int id, String nome, String marca, String cor, String modelo, int velocidade) {
-        super(id, nome);
-        
+    public Jato(int id, String marca, String cor, String modelo, int velocidade) {
+        super(id, marca, modelo);
         this.cor = cor;
-        this.modelo = modelo;
-       
+        this.velocidade = velocidade;
 
         jatos.add(this);
     }
-
-    
 
     public String getCor() {
         return cor;
@@ -27,7 +25,6 @@ public class Jato<Int> extends Aeoronave {
     public void setCor(String cor) {
         this.cor = cor;
     }
-
 
     public int getVelocidade(int velocidade) {
         return velocidade;
@@ -57,10 +54,11 @@ public class Jato<Int> extends Aeoronave {
 
         return null;
     }
+
     @Override
     public String toString() {
-        return super.toString() + "| Cor" + this.cor + "| Velocidade"
-                + this.velocidade;
+        return super.toString() + "| Id: " + this.id + "| Marca: " + this.marca + "| Modelo: " + this.modelo + "| Cor: "
+                + this.cor + "| Capacidade: " + this.velocidade;
     }
 
 }

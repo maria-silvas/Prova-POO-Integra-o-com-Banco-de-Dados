@@ -4,25 +4,29 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Scanner;
-
 import dao.AeroportoDao;
+import model.Aeronave;
+import model.Aeronave;
 import model.Aviao;
 import model.Companhia;
+import model.Helicopetero;
+import model.Jato;
+import model.Prefixo;;
 
 // Criando o programa principal do sistema.
-public class Aeoroporto {
+public class Aeroporto {
 
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
         int menu = 0;
-        // Criando os menus de escolha do Crud 
+        // Criando os menus de escolha do Crud
         Scanner sc = new Scanner(System.in);
         int op = 0;
 
         do {
             System.out.println("Sistema de cadastro geral e acesso do Aeroporto: ");
             System.out.println("\n");
-          
+
             System.out.println("\n\n[01] - Cadastrar Aviao");
             System.out.println("[02] - Cadastrar Jato");
             System.out.println("[03] - Cadastrar Helicopetero");
@@ -74,12 +78,11 @@ public class Aeoroporto {
                 }
 
                 case 4: {
-                    CadastrarHanga(sc);
+                    CadastrarHangar(sc);
                     break;
                 }
 
-               
-                case 16: {
+                case 29: {
                     System.out.println("Saindo...");
                     break;
                 }
@@ -90,13 +93,13 @@ public class Aeoroporto {
                 }
             }
 
-        } while (op != 16);
+        } while (op != 29);
     }
 
     // Cadastros
     public static void CadastrarAviao(Scanner scanner) {
         Boolean prefixoVerificada = false;
-        System.out.println("Cadastro de Aviao");
+        System.out.println("------Cadastro de Aviao------");
 
         System.out.println("Informe a marca do Aviao: ");
         String marca = scanner.next();
@@ -113,55 +116,52 @@ public class Aeoroporto {
         System.out.println("Informe os números prefixo do aviao: ");
         String numero = scanner.next();
 
-
-        while(prefixoVerificada != true){
-            if( letra.length() == 3 && numero.length() == 4) {
+        while (prefixoVerificada != true) {
+            if (letra.length() == 3 && numero.length() == 4) {
                 prefixoVerificada = true;
-            }else if(letra.length() != 3 && numero.length() ==4){
+            } else if (letra.length() != 3 && numero.length() == 4) {
                 System.out.println("Digite as letras da prefixo novamente: ");
                 letra = scanner.next();
-            }else if(letra.length() ==3 && numero.length() != 4){
+            } else if (letra.length() == 3 && numero.length() != 4) {
                 System.out.println("Digite os números da prefixo novamente ");
                 numero = scanner.next();
-            }else{
+            } else {
                 System.out.println("Digite as letras da prefixo novamente");
                 letra = scanner.next();
                 System.out.println("Digite os numeros da prefixo novamente");
                 numero = scanner.next();
             }
-            
         }
 
-        if(prefixoVerificada == true){
-
-            try{
-                Aviao aviao = new Aviao(+1, null, marca, modelo, null, capacidade);
-                while(aviao.getPrefixo() == null){
+        if (prefixoVerificada == true) {
+            Prefixo<String, Integer> prefixo = new Prefixo<String, Integer>(letra, Integer.parseInt(numero));
+            try {
+                Aviao aviao = new Aviao(+1, prefixo, marca, modelo, null, capacidade);
+                while (aviao.getPrefixo() == null) {
                     int idAviao = aviao.getId();
                     System.out.println("Já cadastrada");
                     System.out.println("Digite as letras da prefixo novamente");
                     letra = scanner.next();
                     System.out.println("Digite os numeros da prefixo novamente");
-                    numero = scanner.next();   
-                    Prefixo = new Prefixo<String,Integer>(letra,Integer.parseInt(numero));
-                    for (Aeoronave aer : Aeoronave.aeronaves) {
-                        if (aer instanceof Aviao && aer.getId() == idAviao) {
-                            Aeoronave.aeronaves.remove(aer);
+                    numero = scanner.next();
+                    prefixo = new Prefixo<String, Integer>(letra, Integer.parseInt(numero));
+                    for (Aeronave aeronave : Aeronave.aeronaves) {
+                        if (aeronave instanceof Aviao && aeronave.getId() == idAviao) {
+                            Aeronave.aeoronaves.remove(aviao);
                             break;
                         }
                     }
-                    aviao = new Aviao(idAviao, marca, modelo, prefixo);
+                    aviao = new Aviao(+1, prefixo, marca, modelo, null, capacidade);
                 }
                 System.out.println("Aviao cadastrado com sucesso!\n" + aviao);
-            }catch(Exception e){
+            } catch (Exception e) {
                 System.out.println("Erro ao cadastrar aviao: " + e.getMessage());
             }
-            
+
         }
 
     }
 
-    
     public static void CadastrarJato(Scanner scanner) {
         System.out.println("Cadastro de Jato");
 
@@ -171,12 +171,10 @@ public class Aeoroporto {
         System.out.println("Informe a velocidade da Jato: ");
         String velocidade = scanner.next();
 
-        Aeoronave jato = new Jato(Aeoronave.aeronaves.size() + 1,cor,velocidade);
+        Aeronave jato = new Jato<>(+1, velocidade, cor, velocidade, 0);
 
         System.out.println("Jato cadastrado com sucesso!\n" + jato);
     }
-
-
 
     public static void CadastrarHelicopetero(Scanner scanner) {
         System.out.println("Cadastro de Helicopetero");
@@ -185,9 +183,9 @@ public class Aeoroporto {
         String cor = scanner.next();
 
         System.out.println("Informe a Capacidade do Helicopetero: ");
-        String capacidade= scanner.next();
+        String capacidade = scanner.next();
 
-        Aeoronave helicopetero = new Helicopetero (Aeoronave.aeronaves.size() + 1,cor,capacidade);
+        Aeronave helicopetero = new Helicopetero(+1 , capacidade, cor, capacidade, 0);
 
         System.out.println("Helicopetero cadastrado com sucesso!\n" + helicopetero);
     }
@@ -197,8 +195,8 @@ public class Aeoroporto {
 
         System.out.println("----------------------------------");
         System.out.println("Aeronaves  Hangar: ");
-        for (Aeoronave aeronave : Aeoronave.aeronaves) {
-            if (aeronave instanceof Aeoronave) {
+        for (Aeronave aeronave : Aeronave.aeronaves) {
+            if (aeronave instanceof Aeronave) {
                 System.out.println(aeronave);
             }
         }
@@ -208,12 +206,11 @@ public class Aeoroporto {
         int idVeiculo = sc.nextInt();
 
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-	    Calendar calendario = Calendar.getInstance();
+        Calendar calendario = Calendar.getInstance();
         String data = dateFormat.format(calendario.getTime());
-	    System.out.println("Data e Horario : " + data);
+        System.out.println("Data e Horario : " + data);
         System.out.println(data.equals("27-10-2022 21:37"));
     }
-
 
     public static void CadastrarCompanhia(Scanner scanner) {
         System.out.println("Cadastro de Companhia");
@@ -224,17 +221,8 @@ public class Aeoroporto {
         System.out.println("Informe o CNPJ Companhia: ");
         String cnpj = scanner.next();
 
-        Companhia companhia = new Companhia(Companhia.companhias.size() + 1,nome,cnpj);
+        Companhia companhia = new Companhia(Companhia.companhias.size() + 1, nome, cnpj);
 
         System.out.println("Jato cadastrado com sucesso!\n" + companhia);
-    }
-
-    private static void CadastrarHanga(Scanner sc) {
-    }
-
-    private static void CadastrarHelicopetero(Scanner sc) {
-    }
-
-    private static void CadastrarAviao(Scanner sc) {
     }
 }

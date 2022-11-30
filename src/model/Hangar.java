@@ -1,3 +1,4 @@
+package model;
 
 import java.util.ArrayList;
 
@@ -46,11 +47,11 @@ public class Hangar {
 
     // Pegar este cara dos hangares
     // public Prefixo<String, Integer> getHangar() {
-    //     return this.hangar;
+    // return this.hangar;
     // }
 
     // public void setHangar(Prefixo<String, Integer> hangar) {
-    //     this.hangar = hangar;
+    // this.hangar = hangar;
     // }
 
     public String getLocal() {
@@ -78,12 +79,12 @@ public class Hangar {
 
     // Pegar este cara dos hangares
     // public Boolean verificaHangar(Prefixo<String, Integer> hangar) {
-    //     for (Hangar vagaPesquisa : hangares) {
-    //         if (vagaPesquisa.getHangar().equals(hangar) == true) {
-    //             return true;
-    //         }
-    //     }
-    //     return false;
+    // for (Hangar vagaPesquisa : hangares) {
+    // if (vagaPesquisa.getHangar().equals(hangar) == true) {
+    // return true;
+    // }
+    // }
+    // return false;
     // }
 
     public static Prefixo<String, Integer> deleteHangarById(int id) {
@@ -93,8 +94,6 @@ public class Hangar {
                 return hangar;
             }
         }
-
-        
 
         return null;
     }

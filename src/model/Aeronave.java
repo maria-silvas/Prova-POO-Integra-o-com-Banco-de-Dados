@@ -1,23 +1,25 @@
+package model;
 
 import java.util.ArrayList;
 
-public abstract class Aeoronave {
-    
+public abstract class Aeronave {
+
     protected int id;
     protected String marca;
     protected String modelo;
 
-    public static ArrayList<Aeoronave> aeoronaves = new ArrayList<Aeoronave>();
+    public static ArrayList<Aeronave> aeoronaves = new ArrayList<Aeronave>();
+    public static Aeronave[] aeronaves;
 
-    public void  Aeoronave(){
+    public void Aeronave() {
 
     }
 
-    public Aeoronave(int id, String marca, String modelo) {        
-        
+    public Aeronave(int id, String marca, String modelo) {
+
         this.id = id;
         this.marca = marca;
-        this.modelo=modelo;
+        this.modelo = modelo;
 
         aeoronaves.add(this);
     }
@@ -38,7 +40,6 @@ public abstract class Aeoronave {
         this.marca = marca;
     }
 
-
     public String getModelo() {
         return this.marca;
     }
@@ -47,16 +48,16 @@ public abstract class Aeoronave {
         this.modelo = modelo;
     }
 
-    /* 
-    public Boolean verificaAeoronave(Prefixo<String, Integer> prefixo){
-        for(Aeoronave aeronave: aeoronaves){
-            if(aeronave.getAeroave().equals(prefixo) == true){
-                return true;
-            }
-        }
-        return false;
-    }
-
+    /*
+     * public Boolean verificaAeoronave(Prefixo<String, Integer> prefixo){
+     * for(Aeoronave aeronave: aeoronaves){
+     * if(aeronave.getAeroave().equals(prefixo) == true){
+     * return true;
+     * }
+     * }
+     * return false;
+     * }
+     * 
      */
 
     private Object getAeroave() {

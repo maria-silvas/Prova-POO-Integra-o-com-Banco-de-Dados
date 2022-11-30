@@ -1,6 +1,8 @@
+package model;
+
 import java.util.ArrayList;
 
-public class Helicopetero extends Aeoronave {
+public class Helicopetero extends Aeronave {
 
     private String cor;
     private int capacidade;
@@ -53,7 +55,8 @@ public class Helicopetero extends Aeoronave {
 
     @Override
     public String toString() {
-     return super.toString() + "| Id: " + this.id + "| Marca: " + this.marca + "| Modelo: " + this.modelo + "| Cor: " + this.cor +"| Capacidade: " + this.capacidade ;
+        return super.toString() + "| Id: " + this.id + "| Marca: " + this.marca + "| Modelo: " + this.modelo + "| Cor: "
+                + this.cor + "| Capacidade: " + this.capacidade;
     }
 
 }

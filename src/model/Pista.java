@@ -1,3 +1,5 @@
+package model;
+
 import java.util.ArrayList;
 
 public class Pista {
@@ -44,7 +46,7 @@ public class Pista {
 
     @Override
     public String toString() {
-        return super.toString() + "numero" + this.numero;
+        return super.toString() + "ID" + this.id + "Numero" + this.numero;
     }
 
 }

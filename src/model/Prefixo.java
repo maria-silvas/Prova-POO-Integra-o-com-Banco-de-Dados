@@ -1,16 +1,18 @@
+package model;
+
 public class Prefixo<S, N extends Number> {
 
-    private S texto;
+    private S letra;
     private N numero;
 
-    public Prefixo(S texto, N numero) {
-        this.texto = texto;
+    public Prefixo(S letra, N numero) {
+        this.letra = letra;
         this.numero = numero;
     }
 
     @Override
     public String toString() {
-        return "letras: " + texto + " números: " + numero + "\n";
+        return "letras: " + letra + " números: " + numero + "\n";
     }
 
     @Override
@@ -20,7 +22,7 @@ public class Prefixo<S, N extends Number> {
         if (o == null || getClass() != o.getClass())
             return false;
         Prefixo<S, N> Prefixo = (Prefixo<S, N>) o;
-        if (this.numero.equals(Prefixo.numero) && this.texto.equals(Prefixo.texto)) {
+        if (this.numero.equals(Prefixo.numero) && this.letra.equals(Prefixo.letra)) {
             return true;
         }
         return false;

@@ -1,3 +1,5 @@
+package model;
+
 import java.util.ArrayList;
 
 public class Companhia {
@@ -8,7 +10,7 @@ public class Companhia {
     public static ArrayList<Companhia> companhias = new ArrayList<Companhia>();
 
     public Companhia(int id, String nome, String cnpj) {
-        this.id=id;
+        this.id = id;
         this.nome = nome;
         this.cnpj = cnpj;
 
