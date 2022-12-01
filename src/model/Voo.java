@@ -20,7 +20,7 @@ public class Voo {
 
     public static ArrayList<Voo> voos = new ArrayList<Voo>();
 
-    // Presta atenção nos dados do construtor, tinha coisa faltando aqui
+    // Colocanado atributos no construtor
     public Voo(int id,
             int numero,
             LocalDate data,

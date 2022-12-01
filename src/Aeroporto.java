@@ -1,17 +1,22 @@
 
 // Criando o programa principal do sistema.
+
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Scanner;
-import dao.AeroportoDao;
+import database.DAO;
 import model.Aeronave;
-import model.Aeronave;
+
 import model.Aviao;
 import model.Companhia;
+import model.Hangar;
 import model.Helicopetero;
 import model.Jato;
-import model.Prefixo;;
+import model.Pista;
+import model.Prefixo;
+import model.Voo;;
 
 // Criando o programa principal do sistema.
 public class Aeroporto {
@@ -90,6 +95,14 @@ public class Aeroporto {
                     CadastrarPista(sc, null);
                     break;
                 }
+                case 7: {
+                    CadastrarAviao(sc);
+                    break;
+                }
+                case 8: {
+                    InserirAviao(sc, null);
+                    break;
+                }
 
                 case 29: {
                     System.out.println("Saindo...");
@@ -103,6 +116,9 @@ public class Aeroporto {
             }
 
         } while (op != 29);
+    }
+
+    private static void InserirAviao(Scanner sc, Object object) {
     }
 
     // Cadastros
@@ -282,7 +298,8 @@ public class Aeroporto {
                     }
                     Pista pista = new Pista(Pista.pistas.size() + 1, numero);
                 }
-                System.out.println("Aviao cadastrado com sucesso!\n" + pista);
+                
+                System.out.println("Pista cadastrado com sucesso!\n" + pista);
             } catch (Exception e) {
                 System.out.println("Erro ao cadastrar pista: " + e.getMessage());
             }
@@ -421,7 +438,7 @@ public class Aeroporto {
         for (Hangar hangar : Hangar.hangares) {
             if (hangar instanceof Hangar && hangar.getId() == id) {
                 Hangar.hangares.remove(hangar);
-                System.out.println("HAngar excluído com sucesso!");
+                System.out.println("Hangar excluído com sucesso!");
                 break;
             }
         }
