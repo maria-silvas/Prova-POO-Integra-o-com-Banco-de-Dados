@@ -1,7 +1,13 @@
 package model;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Scanner;
 
+import com.mysql.cj.xdevapi.Statement;
+
+import database.DAO;
 public class Companhia {
     private String nome;
     private String cnpj;
@@ -9,19 +15,21 @@ public class Companhia {
 
     public static ArrayList<Companhia> companhias = new ArrayList<Companhia>();
 
-    public Companhia(int id, String nome, String cnpj) {
-        this.id = id;
+    public Companhia(Companhia companhia, String nome, String cnpj) {
+        this.id = companhia;
         this.nome = nome;
         this.cnpj = cnpj;
 
         companhias.add(this);
     }
 
-    public String getMarca() {
-        return nome;
+    public Companhia(int i, String nome2, String cnpj2) {
     }
 
-    public void setMarca(String nome) {
+    public Companhia(ResultSet rs) {
+    }
+
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
@@ -61,6 +69,153 @@ public class Companhia {
 
     public int getId() {
         return 0;
+    }
+
+
+    public static void printAviao(
+        ArrayList<Companhia> companhias
+    ) {
+        try {
+            for (Companhia companhia : companhias) {
+                System.out.println(companhia);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static ArrayList<Companhia> getAviaoS() throws Exception {
+        try {
+            System.out.println("Conectando ao banco de dados");
+            Connection con = DAO.getConnect();
+            Statement stm = con.createStatement();
+            System.out.println("Banco de Dados conectado");
+            System.out.println("Mostrando dados presente no banco de dados");
+            ResultSet rs = stm.executeQuery("SELECT * FROM companhia;");
+            ArrayList<Companhia> companhias = new ArrayList<>();
+            while (rs.next()) {
+                companhias.add(
+                    new Companhia(rs)
+                );
+            }
+            DAO.deleteConnect();
+            return companhias;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }             
+    }
+
+    public static Companhia getAviaoInsert(Scanner scanner) {
+        
+        System.out.println("Informe o nome da Companhia");
+        String nome = scanner.next();
+        System.out.println("Informe o Cnpj Companhia");
+        String cnpj = scanner.next();
+        
+
+        return new Companhia(
+            new Companhia(0, nome, cnpj),
+            nome,
+            cnpj
+            
+        );
+    }
+
+    public static void insertCompanhiaS(Companhia companhia) {
+        try{
+            System.out.println("Conectando ao banco de dados");
+            Connection con = DAO.getConnect();
+            Statement stm = con.createStatement();
+            System.out.println("Banco de Dados conectado");
+            System.out.println("Inserindo dados no banco de dados");
+            stm.execute("Insert into companhia "
+                + "(nome,cnpj) VALUES "
+                + "('"+companhia.getNome()+"', '"+companhia.getCnpj().getId()+"')");
+            System.out.println("Dados inseridos com sucesso");
+            System.out.println(companhia); 
+            DAO.deleteConnect();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private String getNome() {
+        return null;
+    }
+
+    public static Companhia getAviaoUpdate(Scanner scanner) throws Exception {
+        try {
+            Companhia companhia = getAviao(scanner);
+            System.out.println("Informe a marca do companhia");
+            String marca = scanner.next();
+            System.out.println("Informe o modelo do Companhia");
+            String modelo = scanner.next();
+            System.out.println("Informe a capacidade do Companhia");
+            String capacidade = scanner.next();
+            return companhia;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    public static void updateAviaoS(Companhia companhia) throws Exception {
+        try {
+            System.out.println("Conectando ao banco de dados");
+            Connection con = DAO.getConnect();
+            Statement stm = con.createStatement();
+            System.out.println("Banco de Dados conectado");
+            stm.execute("UPDATE companhia SET "
+                + " marca = '" + companhia.getMarca() + "'"
+                + ", modelo = '" + companhia.getModelo() + "'"
+                + ", capacidade = '" + companhia.getCapacidade() + "'"
+                + ", id_companhia = '" + companhia.getCompanhia().getId()+ "'"
+                + " WHERE id = " + companhia.getId());
+                System.out.println("Dados atualizados com sucesso"); 
+            DAO.deleteConnect();
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    public static Companhia getAviao(Scanner scanner) throws Exception { 
+        try {
+            System.out.println("Informe o ID do companhia: ");
+            int id = scanner.nextInt();
+            System.out.println("Conectando ao banco de dados");
+            Connection con = DAO.getConnect();
+            Statement stm = con.createStatement();
+            System.out.println("Banco de Dados conectado");
+
+            ResultSet rs = stm.executeQuery("SELECT * FROM companhia WHERE id = " + id);
+            
+            if(!rs.next()) {
+                throw new Exception("Id inválido");
+            }
+            
+            Companhia companhia = new Companhia(rs);
+            DAO.deleteConnect();
+            return companhia;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    public static void deleteAviaoPS(Companhia companhia) {
+        try {
+            System.out.println("Conectando ao banco de dados");
+            Connection con = DAO.getConnect();
+            System.out.println("Banco de Dados conectado");
+            System.out.println("Deletando Dados do banco");
+            PreparedStatement pStm = con.prepareStatement("DELETE FROM companhia WHERE id = ?");
+            pStm.setInt(1, companhia.getId());
+            System.out.println("Dados deletado com sucesso");  
+            if(pStm.executeUpdate() <= 0) {
+                System.out.println("Falha na execução.");
+            }
+            DAO.deleteConnect();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 }
