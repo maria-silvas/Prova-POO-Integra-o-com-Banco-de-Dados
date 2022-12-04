@@ -1,7 +1,7 @@
 package model;
 
 import java.util.ArrayList;
-
+import database.DAO;
 public class Jato<Int> extends Aeronave {
 
     private String cor;

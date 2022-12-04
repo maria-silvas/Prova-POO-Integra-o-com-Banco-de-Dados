@@ -1,5 +1,5 @@
 package model;
-
+import database.DAO;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -157,4 +157,65 @@ public class Voo {
 
         return null;
     }
+
+     public static Prefixo<String, Integer> deleteHangarById(int id) {
+        for (Hangar hangares : Hangar.hangares) {
+            if (hangares.id == id) {
+                Hangar.hangares.remove(hangares);
+                return hangar;
+            }
+        }
+
+        return null;
+    }
+
+
+    public static void printAviao(
+        ArrayList<Hangar> aviaos
+    ) {
+        try {
+            for (Hangar hangar : aviaos) {
+                System.out.println(hangar);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static ArrayList<Hangar> getAviaoS() throws Exception {
+        try {
+            System.out.println("Conectando ao banco de dados");
+            Connection con = DAO.getConnect();
+            Statement stm = con.createStatement();
+            System.out.println("Banco de Dados conectado");
+            System.out.println("Mostrando dados presente no banco de dados");
+            ResultSet rs = stm.executeQuery("SELECT * FROM hangar;");
+            ArrayList<Hangar> aviaos = new ArrayList<>();
+            while (rs.next()) {
+                aviaos.add(
+                    new Hangar(rs)
+                );
+            }
+            DAO.deleteConnect();
+            return aviaos;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }             
+    }
+
+    public static Hangar getAviaoInsert(Scanner scanner) {
+        
+        System.out.println("Informe o local do Hangar");
+        String local= scanner.next();
+        
+
+        return new Hangar(
+            new Prefixo<String,Integer>(null, null),
+            local,
+           
+        );
+    }
+
+   
+
 }
