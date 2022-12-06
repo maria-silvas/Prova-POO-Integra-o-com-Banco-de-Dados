@@ -60,7 +60,7 @@ public abstract class Aeronave {
      * 
      */
 
-    private Object getAeroave() {
+    private Object getAeronave() {
         return null;
     }
 

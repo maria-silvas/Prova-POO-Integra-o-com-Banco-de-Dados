@@ -1,9 +1,11 @@
-
 // Criando o programa principal do sistema.
 
-
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Scanner;
 import database.DAO;
@@ -12,7 +14,7 @@ import model.Aeronave;
 import model.Aviao;
 import model.Companhia;
 import model.Hangar;
-import model.Helicopetero;
+import model.Helicoptero;
 import model.Jato;
 import model.Pista;
 import model.Prefixo;
@@ -22,10 +24,10 @@ import model.Voo;;
 public class Aeroporto {
 
     public static void main(String[] args) throws Exception {
-        Scanner scanner = new Scanner(System.in);
-        int menu = 0;
         // Criando os menus de escolha do Crud
         Scanner sc = new Scanner(System.in);
+        FileWriter arq = new FileWriter("aeroporto.txt");
+        PrintWriter gravarArq = new PrintWriter(arq);
         int op = 0;
 
         do {
@@ -34,28 +36,28 @@ public class Aeroporto {
 
             System.out.println("\n\n[01] - Cadastrar Aviao");
             System.out.println("[02] - Cadastrar Jato");
-            System.out.println("[03] - Cadastrar Helicopetero");
+            System.out.println("[03] - CadastrarHelicoptero");
             System.out.println("[04] - Cadastrar Hangar");
             System.out.println("[05] - Cadastrar Companhia");
             System.out.println("[06] - Cadastrar Pista");
             System.out.println("[07] - Cadastrar VOO");
             System.out.println("[08] - Inserir Aviao");
             System.out.println("[09] - Inserir Jato");
-            System.out.println("[10] - Inserir Helicopetero");
+            System.out.println("[10] - InserirHelicoptero");
             System.out.println("[11] - Inserir Hangar");
             System.out.println("[12] - Inserir Companhia");
             System.out.println("[13] - Inserir Pista");
             System.out.println("[14] - Inserir VOO");
             System.out.println("[15] - Listar Aviao");
             System.out.println("[16] - Listar Jato");
-            System.out.println("[17] - Listar Helicopetero");
+            System.out.println("[17] - ListarHelicoptero");
             System.out.println("[18] - Listar Hangar");
             System.out.println("[19] - Listar Companhia");
             System.out.println("[20] - Listar Pista");
             System.out.println("[21] - Listar VOO");
             System.out.println("[22] - Excluir Aviao");
             System.out.println("[23] - Excluir Jato");
-            System.out.println("[24] - Excluir Helicopetero");
+            System.out.println("[24] - ExcluirHelicoptero");
             System.out.println("[25] - Excluir Hangar");
             System.out.println("[26] - Excluir Companhia");
             System.out.println("[27] - Excluir Pista");
@@ -68,7 +70,12 @@ public class Aeroporto {
 
             switch (op) {
                 case 1: {
-                    CadastrarAviao(sc);
+                    if (Companhia.companhias.size() > 0) {
+                        CadastrarAviao(sc);
+                    } else {
+                        System.out.println("Cadastre uma companhia antes de cadastrar um aviao");
+                    }
+
                     break;
                 }
 
@@ -96,15 +103,26 @@ public class Aeroporto {
                     break;
                 }
                 case 7: {
-                    CadastrarAviao(sc);
+                    CadastrarVoo(sc);
                     break;
                 }
                 case 8: {
                     InserirAviao(sc, null);
                     break;
                 }
+                case 16: {
+                    ListarJato(gravarArq);
+                    break;
+                }
 
                 case 29: {
+                    SalvarArquivo(gravarArq);
+                    break;
+                }
+
+                case 30: {
+                    arq.close();
+                    sc.close();
                     System.out.println("Saindo...");
                     break;
                 }
@@ -141,6 +159,9 @@ public class Aeroporto {
         System.out.println("Informe os números prefixo do aviao: ");
         String numero = scanner.next();
 
+        System.out.println("Informe a companhia do aviao: ");
+        int companhia = scanner.nextInt();
+
         while (prefixoVerificada != true) {
             if (letra.length() == 3 && numero.length() == 4) {
                 prefixoVerificada = true;
@@ -153,15 +174,13 @@ public class Aeroporto {
             } else {
                 System.out.println("Digite as letras da prefixo novamente");
                 letra = scanner.next();
-                System.out.println("Digite os numeros da prefixo novamente");
-                numero = scanner.next();
             }
         }
 
         if (prefixoVerificada == true) {
             Prefixo<String, Integer> prefixo = new Prefixo<String, Integer>(letra, Integer.parseInt(numero));
             try {
-                Aviao aviao = new Aviao(+1, prefixo, marca, modelo, null, capacidade);
+                Aviao aviao = new Aviao(Aviao.avioes.size() + 1, prefixo, marca, modelo, companhia, capacidade);
                 while (aviao.getPrefixo() == null) {
                     int idAviao = aviao.getId();
                     System.out.println("Já cadastrada");
@@ -176,7 +195,7 @@ public class Aeroporto {
                             break;
                         }
                     }
-                    aviao = new Aviao(+1, prefixo, marca, modelo, null, capacidade);
+                    aviao = new Aviao(Aviao.avioes.size() + 1, prefixo, marca, modelo, companhia, capacidade);
                 }
                 System.out.println("Aviao cadastrado com sucesso!\n" + aviao);
             } catch (Exception e) {
@@ -190,49 +209,40 @@ public class Aeroporto {
     public static void CadastrarJato(Scanner scanner) {
         System.out.println("------Cadastro de Jato------");
 
-        System.out.println("Informe a cor da Jato: ");
+        System.out.println("Informe a marca do Jato: ");
+        String marca = scanner.next();
+
+        System.out.println("Informe a cor do Jato: ");
         String cor = scanner.next();
 
+        System.out.println("Informe o modelo do Jato: ");
+        String modelo = scanner.next();
+
         System.out.println("Informe a velocidade da Jato: ");
-        String velocidade = scanner.next();
+        int velocidade = scanner.nextInt();
 
-        Aeronave jato = new Jato<>(+1, velocidade, cor, velocidade, 0);
-
+        Aeronave jato = new Jato<>(Jato.jatos.size() + 1, marca, cor, modelo, velocidade);
         System.out.println("Jato cadastrado com sucesso!\n" + jato);
     }
 
     public static void CadastrarHelicopetero(Scanner scanner) {
-        System.out.println("------Cadastro de Helicopetero------");
+        System.out.println("------Cadastro deHelicoptero------");
 
-        System.out.println("Informe a cor do Helicopetero: ");
+        System.out.println("Informe a marca doHelicoptero: ");
+        String marca = scanner.next();
+
+        System.out.println("Informe o modelo doHelicoptero: ");
+        String modelo = scanner.next();
+
+        System.out.println("Informe a cor doHelicoptero: ");
         String cor = scanner.next();
 
-        System.out.println("Informe a Capacidade do Helicopetero: ");
-        String capacidade = scanner.next();
+        System.out.println("Informe a Capacidade doHelicoptero: ");
+        int capacidade = scanner.nextInt();
 
-        Aeronave helicopetero = new Helicopetero(+1, capacidade, cor, capacidade, 0);
+        Aeronave helicopetero = new Helicoptero(Helicoptero.helicopteros.size() + 1, marca, modelo, cor, capacidade);
 
-        System.out.println("Helicopetero cadastrado com sucesso!\n" + helicopetero);
-    }
-
-    public static void CadastrarHangar(Scanner sc) {
-        System.out.println("------Cadastro de Hangar------");
-
-        System.out.println("Aeronaves  Hangar: ");
-        for (Aeronave aeronave : Aeronave.aeronaves) {
-            if (aeronave instanceof Aeronave) {
-                System.out.println(aeronave);
-            }
-        }
-
-        System.out.println("Informe o id da Aeronave: ");
-        int idAeronave = sc.nextInt();
-
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-        Calendar calendario = Calendar.getInstance();
-        String data = dateFormat.format(calendario.getTime());
-        System.out.println("Data e Horario : " + data);
-        System.out.println(data.equals("27-10-2022 21:37"));
+        System.out.println("HelicHelicoptero cadastrado com sucesso!\n" + helicopetero);
     }
 
     public static void CadastrarCompanhia(Scanner scanner) {
@@ -252,58 +262,131 @@ public class Aeroporto {
     public static void CadastrarPista(Scanner scanner, String letra) {
         System.out.println("------Cadastro de Pista------");
 
-        System.out.println("Informe o id da pista: ");
-        String id = scanner.next();
-
-        System.out.println("Informe o numero da Pista:  ");
+        System.out.println("Informe o número da pista: ");
         String numero = scanner.next();
 
-        Pista pista = new Pista(+1, numero);
+        Pista pista = new Pista(Pista.pistas.size() + 1, numero);
+        System.out.println("Pista cadastrada com sucesso!\n" + pista);
+    }
 
-        boolean prefixoVerificada;
-        while (prefixoVerificada != true) {
-            if (letra.length() == 1 && numero.length() == 2) {
-                prefixoVerificada = true;
-            } else if (letra.length() != 3 && numero.length() == 4) {
-                System.out.println("Digite as letras da pista novamente: ");
-                letra = scanner.next();
-            } else if (letra.length() == 3 && numero.length() != 4) {
-                System.out.println("Digite os números da pista novamente ");
-                numero = scanner.next();
-            } else {
-                System.out.println("Digite as letras da pista novamente");
-                letra = scanner.next();
-                System.out.println("Digite os numeros da pista novamente");
-                numero = scanner.next();
+    public static void CadastrarHangar(Scanner sc) {
+        System.out.println("------Cadastro de Hangar------");
+
+        System.out.println("Aeronaves  Hangar: ");
+        for (Aeronave aeronave : Aeronave.aeronaves) {
+            if (aeronave instanceof Aeronave) {
+                System.out.println(aeronave);
             }
         }
 
-        if (prefixoVerificada == true) {
-            Prefixo<String, Integer> prefixo = new Prefixo<String, Integer>(letra, Integer.parseInt(numero));
-            try {
-                Pista pista = new Pista(+1, numero);
-                while (pista.getPrefixo() == null) {
-                    int idPista = pista.getId();
-                    System.out.println("Já cadastrada");
-                    System.out.println("Digite as letras da prefixo novamente");
-                    letra = scanner.next();
-                    System.out.println("Digite os numeros da prefixo novamente");
-                    numero = scanner.next();
-                    prefixo = new Prefixo<String, Integer>(letra, Integer.parseInt(numero));
-                    for (Pista pistas : Pista.pistas) {
-                        if (pistas instanceof Pista && pista.getId() == idPista) {
-                            Pista.pistas.remove(pista);
-                            break;
-                        }
-                    }
-                    Pista pista = new Pista(Pista.pistas.size() + 1, numero);
-                }
-                
-                System.out.println("Pista cadastrado com sucesso!\n" + pista);
-            } catch (Exception e) {
-                System.out.println("Erro ao cadastrar pista: " + e.getMessage());
-            }
+        System.out.println("Informe o id da Aeronave: ");
+        int idAeronave = sc.nextInt();
 
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+
+        System.out.println("Informe o id da pista: ");
+        String id = sc.next();
+
+        System.out.println("Informe o numero da Pista:  ");
+        String numero = sc.next();
+
+        Pista pista = new Pista(+1, numero);
+
+        // boolean prefixoVerificada = false;
+        // while (prefixoVerificada != true) {
+        // if (letra.length() == 1 && numero.length() == 2) {
+        // prefixoVerificada = true;
+        // } else if (letra.length() != 3 && numero.length() == 4) {
+        // System.out.println("Digite as letras da pista novamente: ");
+        // letra = sc.next();
+        // } else if (letra.length() == 3 && numero.length() != 4) {
+        // System.out.println("Digite os números da pista novamente ");
+        // numero = sc.next();
+        // } else {
+        // System.out.println("Digite as letras da pista novamente");
+        // letra = sc.next();
+        // System.out.println("Digite os numeros da pista novamente");
+        // numero = sc.next();
+        // }
+        // }
+
+        // if (prefixoVerificada == true) {
+        // Prefixo<String, Integer> prefixo = new Prefixo<String, Integer>(letra,
+        // Integer.parseInt(numero));
+        // try {
+        // // Pista pista = new Pista(+1, numero);
+        // while (pista.getPrefixo() == null) {
+        // int idPista = pista.getId();
+        // System.out.println("Já cadastrada");
+        // System.out.println("Digite as letras da prefixo novamente");
+        // letra = scanner.next();
+        // System.out.println("Digite os numeros da prefixo novamente");
+        // numero = scanner.next();
+        // prefixo = new Prefixo<String, Integer>(letra, Integer.parseInt(numero));
+        // for (Pista pistas : Pista.pistas) {
+        // if (pistas instanceof Pista && pista.getId() == idPista) {
+        // Pista.pistas.remove(pista);
+        // break;
+        // }
+        // }
+        // // Pista pistas.add(Pista.pistas.size() + 1, numero);
+        // Pista pista2 = new Pista(Pista.pistas.size() + 1, numero);
+        // }
+
+        // System.out.println("Pista cadastrado com sucesso!\n" + pista);
+        // } catch (Exception e) {
+        // System.out.println("Erro ao cadastrar pista: " + e.getMessage());
+        // }
+
+        // }
+    }
+
+    public static void CadastrarVoo(Scanner sc) {
+
+        System.out.println("------Cadastro de Voo------");
+
+        System.out.println("Informe a data do Voo: ");
+        String data = sc.next();
+
+        System.out.println("informe o numero do voo");
+        int numero = sc.nextInt();
+
+        System.out.println("Informe o horario do Voo: ");
+        String hora = sc.next();
+
+        System.out.println("Informe a origem do Voo: ");
+        String origem = sc.next();
+
+        System.out.println("Informe o destino do Voo: ");
+        String destino = sc.next();
+
+        System.out.println("Informe o Piloto do Voo: ");
+        String piloto = sc.next();
+
+        System.out.println("Informe o Copiloto do Voo: ");
+        String copiloto = sc.next();
+
+        System.out.println("Observações sobre o Voo: ");
+        String observacao = sc.next();
+
+        System.out.println("Informe a pista de decolagem: ");
+        int idPista = sc.nextInt();
+
+        System.out.println("Informe o id da Aeronave: ");
+        int idAeronave = sc.nextInt();
+
+        Voo voo = new Voo(Voo.voos.size() + 1,numero, data, hora, origem, destino, piloto, copiloto, observacao, idPista,
+                idAeronave);
+    }
+
+    public static void SalvarArquivo(PrintWriter gravarArq) {
+        System.out.println("------Salvar Voos em Arquivo------");
+        gravarArq.println("------Voos Salvos no Sistema------");
+
+        for (Voo voo : Voo.voos) {
+            if (voo instanceof Voo) {
+                gravarArq.println(voo);
+            }
         }
     }
 
@@ -318,7 +401,7 @@ public class Aeroporto {
 
     }
 
-    public static void ListarJato(Scanner sc) {
+    public static void ListarJato(PrintWriter gravarArq) {
         System.out.println("------Listagem de Jato------");
 
         for (Aeronave jato : Aeronave.aeoronaves) {
@@ -330,10 +413,10 @@ public class Aeroporto {
     }
 
     public static void ListarHelicopetero(Scanner sc) {
-        System.out.println("------Listagem de Helicopetero------");
+        System.out.println("------Listagem deHelicoptero------");
 
         for (Aeronave helicopetero : Aeronave.aeoronaves) {
-            if (helicopetero instanceof Helicopetero) {
+            if (helicopetero instanceof Helicoptero) {
                 System.out.println(helicopetero);
             }
         }
@@ -390,9 +473,9 @@ public class Aeroporto {
         System.out.println("Informe o ID do Aviao: ");
         int id = sc.nextInt();
 
-        for (Aviao aviao : Aviao.aviaos) {
+        for (Aviao aviao : Aviao.avioes) {
             if (aviao instanceof Aviao && aviao.getId() == id) {
-                Aviao.aviaos.remove(aviao);
+                Aviao.avioes.remove(aviao);
                 System.out.println("Avião excluído com sucesso!");
                 break;
             }
@@ -415,15 +498,15 @@ public class Aeroporto {
     }
 
     public static void ExcluirHelicopetero(Scanner sc) {
-        System.out.println("------Exclusão de Helicopetero------");
+        System.out.println("------Exclusão deHelicoptero------");
 
-        System.out.println("Informe o ID do Helicopetero: ");
+        System.out.println("Informe o ID doHelicoptero: ");
         int id = sc.nextInt();
 
-        for (Helicopetero helicopetero : Helicopetero.helicopeteros) {
-            if (helicopetero instanceof Helicopetero && helicopetero.getId() == id) {
-                Helicopetero.helicopeteros.remove(helicopetero);
-                System.out.println("Helicopetero excluído com sucesso!");
+        for (Helicoptero helicopetero :Helicoptero.helicopteros) {
+            if (helicopetero instanceof Helicoptero && helicopetero.getId() == id) {
+               Helicoptero.helicopteros.remove(helicopetero);
+                System.out.println("HelicHelicoptero excluído com sucesso!");
                 break;
             }
         }
