@@ -14,7 +14,8 @@ import database.DAO;
 public class Aviao extends Aeronave {
     private Prefixo<String, Integer> prefixo;
     private String capacidade;
-    private String companhia;
+    private int idCompanhia;
+    private Companhia companhia;
 
     public static ArrayList<Aviao> avioes = new ArrayList<Aviao>();
     private ResultSet rs;
@@ -24,14 +25,17 @@ public class Aviao extends Aeronave {
             Prefixo<String, Integer> prefixo,
             String marca,
             String modelo,
-            int companhia2,
-            String capacidade) {
+            int idCompanhia,
+            String capacidade,
+            Companhia companhia) {
         super(id, marca, modelo);
         try {
             if (avioes.isEmpty()) {
+                this.idCompanhia = idCompanhia;
+                this.companhia = companhia;
                 this.prefixo = prefixo;
                 this.capacidade = capacidade;
-                this.companhia = companhia2;
+                this.companhia = companhia;
 
                 avioes.add(this);
             } else if (!avioes.isEmpty())
@@ -39,9 +43,11 @@ public class Aviao extends Aeronave {
                     if (aviao.getPrefixo().equals(prefixo)) {
                         throw new Exception("Prefixo já cadastradao");
                     } else {
+                        this.idCompanhia = idCompanhia;
+                        this.companhia = companhia;
                         this.prefixo = prefixo;
                         this.capacidade = capacidade;
-                        this.companhia = companhia2;
+                        this.companhia = companhia;
 
                         avioes.add(this);
                     }
@@ -80,7 +86,7 @@ public class Aviao extends Aeronave {
      //   this.rs = rs;
     //}
 
-    public Aviao(ResultSet rs2) {
+    public Aviao(ResultSet rs) {
     }
 
     public Prefixo<String, Integer> getPrefixo() {
@@ -140,7 +146,7 @@ public class Aviao extends Aeronave {
     public String toString() {
         Companhia companhia = Companhia.getComapnhiaById(this.companhia);
         return super.toString() + "Placa: " + this.prefixo + "| Capacidade: " + this.capacidade + " | Companhia: "
-                + companhia.getNome();
+                + companhia.getNome() + "Companhia: " + this.companhia + "idCompanhia: " + this.idCompanhia;
     }
 
     public static void printAviao(

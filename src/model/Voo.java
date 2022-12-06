@@ -1,14 +1,17 @@
 package model;
 import database.DAO;
-import java.time.LocalDate;
-import java.time.LocalTime;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Voo {
     private int id;
     private int numero;
-    private LocalDate data;
-    private LocalTime hora;
+    private String data;
+    private String hora;
     private String origem;
     private String destino;
     private String piloto;
@@ -17,14 +20,34 @@ public class Voo {
     private int idPista;
     private Pista pista;
     private int idAeronave;
+    private int idAviao;
+    private int idHelicoptero;
+    private int idJato;
+    private int Jato Jato;
 
     public static ArrayList<Voo> voos = new ArrayList<Voo>();
 
+    public Voo() {
+    }
+
+    public Voo(String data, String hora, String origem, String destino, String piloto, String copiloto, String observacao, int idPista, int idAviao, int idHelicoptero, int idJato) {
+        this.data = data;
+        this.hora = hora;
+        this.origem = origem;
+        this.destino = destino;
+        this.piloto = piloto;
+        this.copiloto = copiloto;
+        this.observacao = observacao;
+        this.idPista = idPista;
+        this.idAviao = idAviao;
+        this.idHelicoptero = idHelicoptero;
+        this.idJato = idJato;
+    }
     // Colocanado atributos no construtor
     public Voo(int id,
             int numero,
-            LocalDate data,
-            LocalTime hora,
+            String data,
+            String hora,
             String origem,
             String destino,
             String piloto,
@@ -45,6 +68,17 @@ public class Voo {
         this.idAeronave = idAeronave;
 
         voos.add(this);
+
+        try{
+            Connection conn = DAO.getConnect();
+            Statement stmt = conn.createStatement();
+            String sql = "INSERT INTO voo (numero, data, hora, origem, destino, piloto, copiloto, observacao, idPista, idAeronave) VALUES (" + this.numero + ", '" + this.data + "', '" + this.hora + "', '" + this.origem + "', '" + this.destino + "', '" + this.piloto + "', '" + this.copiloto + "', '" + this.observacao + "', " + this.idPista + ", " + this.idAeronave + ")";
+            stmt.execute(sql);
+            stmt.close();
+            conn.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public int getId() {
@@ -63,19 +97,19 @@ public class Voo {
         this.numero = numero;
     }
 
-    public LocalDate getData() {
+    public String getData() {
         return this.data;
     }
 
-    public void setData(LocalDate data) {
+    public void setData(String data) {
         this.data = data;
     }
 
-    public LocalTime getHora() {
+    public String getHora() {
         return this.hora;
     }
 
-    public void setHora(LocalTime hora) {
+    public void setHora(String hora) {
         this.hora = hora;
     }
 
@@ -131,6 +165,30 @@ public class Voo {
         this.idAeronave = idAeronave;
     }
 
+    public int getIdAviao() {
+        return this.idAviao;
+    }
+
+    public void setIdAviao(int idAviao) {
+        this.idAviao = idAviao;
+    }
+
+    public int getIdHelicoptero() {
+        return this.idHelicoptero;
+    }
+
+    public void setIdHelicoptero(int idHelicoptero) {
+        this.idHelicoptero = idHelicoptero;
+    }
+
+    public int getIdJato() {
+        return this.idJato;
+    }
+
+    public void setIdJato(int idJato) {
+        this.idJato = idJato;
+    }
+
     @Override
     public String toString() {
         return "Id: " + this.id + " | Data: " + this.data + " | Hora: " + this.hora + " | Origem: " + this.origem
@@ -160,9 +218,8 @@ public class Voo {
 
      public static Prefixo<String, Integer> deleteHangarById(int id) {
         for (Hangar hangares : Hangar.hangares) {
-            if (hangares.id == id) {
+            if (hangares.getId() == id) {
                 Hangar.hangares.remove(hangares);
-                return hangar;
             }
         }
 
@@ -182,40 +239,23 @@ public class Voo {
         }
     }
 
-    public static ArrayList<Hangar> getAviaoS() throws Exception {
-        try {
-            System.out.println("Conectando ao banco de dados");
-            Connection con = DAO.getConnect();
-            Statement stm = con.createStatement();
-            System.out.println("Banco de Dados conectado");
-            System.out.println("Mostrando dados presente no banco de dados");
-            ResultSet rs = stm.executeQuery("SELECT * FROM hangar;");
-            ArrayList<Hangar> aviaos = new ArrayList<>();
-            while (rs.next()) {
-                aviaos.add(
-                    new Hangar(rs)
-                );
-            }
-            DAO.deleteConnect();
-            return aviaos;
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }             
+    public static void getTodosOsVoos() throws Exception{
+        Connection con = DAO.getConnect();
+        Statement stm = con.createStatement();
+        ResultSet rs = stm.executeQuery("SELECT * FROM voo;");
+        while (rs.next()) {
+            System.out.println("Id: " + rs.getInt("id") + " | Data: " + rs.getString("data") + " | Hora: " + rs.getString("hora") + " | Origem: " + rs.getString("origem")
+                    + " | Piloto: " + rs.getString("piloto") + " | CoPiloto: " + rs.getString("copiloto") + " | Observação: " + rs.getString("observacao"));
+        }
+        DAO.deleteConnect();
     }
 
-    public static Hangar getAviaoInsert(Scanner scanner) {
-        
-        System.out.println("Informe o local do Hangar");
-        String local= scanner.next();
-        
-
-        return new Hangar(
-            new Prefixo<String,Integer>(null, null),
-            local,
-           
-        );
+    public static void update(int id, String data, String hora, String origem, String piloto, String copiloto, String observacao) throws Exception{
+        Connection con = DAO.getConnect();
+        Statement stm = con.createStatement();
+        stm.executeUpdate("UPDATE voo SET data = '" + data + "', hora = '" + hora + "', origem = '" + origem + "', piloto = '" + piloto + "', copiloto = '" + copiloto + "', observacao = '" + observacao + "' WHERE id = " + id + ";");
+        DAO.deleteConnect();
     }
-
-   
+    
 
 }

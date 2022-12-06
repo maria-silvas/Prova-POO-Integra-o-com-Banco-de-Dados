@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -8,6 +9,7 @@ import java.util.Scanner;
 import com.mysql.cj.xdevapi.Statement;
 
 import database.DAO;
+
 public class Companhia {
     private String nome;
     private String cnpj;
@@ -15,35 +17,41 @@ public class Companhia {
 
     public static ArrayList<Companhia> companhias = new ArrayList<Companhia>();
 
-    public Companhia(Companhia companhia, String nome, String cnpj) {
-        this.id = companhia;
+    public Companhia(int id, String nome, String cnpj) {
+        this.id = id;
         this.nome = nome;
         this.cnpj = cnpj;
 
         companhias.add(this);
     }
 
-    public Companhia(int i, String nome2, String cnpj2) {
-    }
-
-    public Companhia(ResultSet rs) {
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setNome(String nome) {
         this.nome = nome;
     }
 
-    public String getCnpj() {
-        return cnpj;
-    }
-
     public void setCnpj(String cnpj) {
         this.cnpj = cnpj;
     }
 
-    public static Companhia getComapnhiaById(int id) {
+    public int getId() {
+        return id;
+    }
+
+    public String getNome() {
+        return this.nome;
+    }
+
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public static Companhia getComapnhiaById(Companhia companhia2) {
         for (Companhia companhia : Companhia.companhias) {
-            if (companhia.id == id) {
+            if (companhia.id == companhia.id) {
                 return companhia;
             }
         }
@@ -64,17 +72,11 @@ public class Companhia {
 
     @Override
     public String toString() {
-        return super.toString() + "Nome: " + this.nome + "| Cnpj:" + this.cnpj;
+        return "Id: " + this.id + "Nome: " + this.nome + "| Cnpj:" + this.cnpj;
     }
-
-    public int getId() {
-        return 0;
-    }
-
 
     public static void printAviao(
-        ArrayList<Companhia> companhias
-    ) {
+            ArrayList<Companhia> companhias) {
         try {
             for (Companhia companhia : companhias) {
                 System.out.println(companhia);
@@ -84,63 +86,52 @@ public class Companhia {
         }
     }
 
-    public static ArrayList<Companhia> getAviaoS() throws Exception {
-        try {
-            System.out.println("Conectando ao banco de dados");
-            Connection con = DAO.getConnect();
-            Statement stm = con.createStatement();
-            System.out.println("Banco de Dados conectado");
-            System.out.println("Mostrando dados presente no banco de dados");
-            ResultSet rs = stm.executeQuery("SELECT * FROM companhia;");
-            ArrayList<Companhia> companhias = new ArrayList<>();
-            while (rs.next()) {
-                companhias.add(
-                    new Companhia(rs)
-                );
-            }
-            DAO.deleteConnect();
-            return companhias;
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }             
-    }
+    // public static ArrayList<Companhia> getAviaoS() throws Exception {
+    // try {
+    // System.out.println("Conectando ao banco de dados");
+    // Connection con = DAO.getConnect();
+    // Statement stm = con.createStatement();
+    // System.out.println("Banco de Dados conectado");
+    // System.out.println("Mostrando dados presente no banco de dados");
+    // ResultSet rs = stm.executeQuery("SELECT * FROM companhia;");
+    // ArrayList<Companhia> companhias = new ArrayList<>();
+    // while (rs.next()) {
+    // companhias.add(
+    // new Companhia(rs));
+    // }
+    // DAO.deleteConnect();
+    // return companhias;
+    // } catch (Exception e) {
+    // throw new Exception(e.getMessage());
+    // }
+    // }
 
     public static Companhia getAviaoInsert(Scanner scanner) {
-        
+
         System.out.println("Informe o nome da Companhia");
         String nome = scanner.next();
         System.out.println("Informe o Cnpj Companhia");
         String cnpj = scanner.next();
-        
 
-        return new Companhia(
-            new Companhia(0, nome, cnpj),
-            nome,
-            cnpj
-            
-        );
+        return new Companhia(0, nome, cnpj);
     }
 
     public static void insertCompanhiaS(Companhia companhia) {
-        try{
+        try {
             System.out.println("Conectando ao banco de dados");
             Connection con = DAO.getConnect();
-            Statement stm = con.createStatement();
+            Statement stm = (Statement) con.createStatement();
             System.out.println("Banco de Dados conectado");
             System.out.println("Inserindo dados no banco de dados");
             stm.execute("Insert into companhia "
-                + "(nome,cnpj) VALUES "
-                + "('"+companhia.getNome()+"', '"+companhia.getCnpj().getId()+"')");
+                    + "(nome,cnpj) VALUES "
+                    + "('" + companhia.getNome() + "', '" + companhia.getCnpj().getId() + "')");
             System.out.println("Dados inseridos com sucesso");
-            System.out.println(companhia); 
+            System.out.println(companhia);
             DAO.deleteConnect();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }
-
-    private String getNome() {
-        return null;
     }
 
     public static Companhia getAviaoUpdate(Scanner scanner) throws Exception {
@@ -165,19 +156,19 @@ public class Companhia {
             Statement stm = con.createStatement();
             System.out.println("Banco de Dados conectado");
             stm.execute("UPDATE companhia SET "
-                + " marca = '" + companhia.getMarca() + "'"
-                + ", modelo = '" + companhia.getModelo() + "'"
-                + ", capacidade = '" + companhia.getCapacidade() + "'"
-                + ", id_companhia = '" + companhia.getCompanhia().getId()+ "'"
-                + " WHERE id = " + companhia.getId());
-                System.out.println("Dados atualizados com sucesso"); 
+                    + " marca = '" + companhia.getMarca() + "'"
+                    + ", modelo = '" + companhia.getModelo() + "'"
+                    + ", capacidade = '" + companhia.getCapacidade() + "'"
+                    + ", id_companhia = '" + companhia.getCompanhia().getId() + "'"
+                    + " WHERE id = " + companhia.getId());
+            System.out.println("Dados atualizados com sucesso");
             DAO.deleteConnect();
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
 
-    public static Companhia getAviao(Scanner scanner) throws Exception { 
+    public static Companhia getAviao(Scanner scanner) throws Exception {
         try {
             System.out.println("Informe o ID do companhia: ");
             int id = scanner.nextInt();
@@ -187,11 +178,11 @@ public class Companhia {
             System.out.println("Banco de Dados conectado");
 
             ResultSet rs = stm.executeQuery("SELECT * FROM companhia WHERE id = " + id);
-            
-            if(!rs.next()) {
+
+            if (!rs.next()) {
                 throw new Exception("Id inválido");
             }
-            
+
             Companhia companhia = new Companhia(rs);
             DAO.deleteConnect();
             return companhia;
@@ -208,8 +199,8 @@ public class Companhia {
             System.out.println("Deletando Dados do banco");
             PreparedStatement pStm = con.prepareStatement("DELETE FROM companhia WHERE id = ?");
             pStm.setInt(1, companhia.getId());
-            System.out.println("Dados deletado com sucesso");  
-            if(pStm.executeUpdate() <= 0) {
+            System.out.println("Dados deletado com sucesso");
+            if (pStm.executeUpdate() <= 0) {
                 System.out.println("Falha na execução.");
             }
             DAO.deleteConnect();
