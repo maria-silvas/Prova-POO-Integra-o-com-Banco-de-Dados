@@ -14,36 +14,36 @@ import database.DAO;
 public class Aviao extends Aeronave {
     private Prefixo<String, Integer> prefixo;
     private String capacidade;
-    private Companhia companhia;
+    private String companhia;
 
-    public static ArrayList<Aviao> aviaos = new ArrayList<Aviao>();
+    public static ArrayList<Aviao> avioes = new ArrayList<Aviao>();
+    private ResultSet rs;
 
     public Aviao(
-        int id,
-        Prefixo<String, Integer> prefixo,
-        String marca,
-        String modelo,
-        Companhia companhia,
-        String capacidade
-    ) {
+            int id,
+            Prefixo<String, Integer> prefixo,
+            String marca,
+            String modelo,
+            int companhia2,
+            String capacidade) {
         super(id, marca, modelo);
         try {
-            if (aviaos.isEmpty()) {
+            if (avioes.isEmpty()) {
                 this.prefixo = prefixo;
                 this.capacidade = capacidade;
-                this.companhia = companhia;
+                this.companhia = companhia2;
 
-                aviaos.add(this);
-            } else if (!aviaos.isEmpty())
-                for (Aviao aviao : aviaos) {
+                avioes.add(this);
+            } else if (!avioes.isEmpty())
+                for (Aviao aviao : avioes) {
                     if (aviao.getPrefixo().equals(prefixo)) {
                         throw new Exception("Prefixo já cadastradao");
                     } else {
                         this.prefixo = prefixo;
                         this.capacidade = capacidade;
-                        this.companhia = companhia;
+                        this.companhia = companhia2;
 
-                        aviaos.add(this);
+                        avioes.add(this);
                     }
                 }
             else {
@@ -55,27 +55,32 @@ public class Aviao extends Aeronave {
 
     }
 
-    public Aviao(ResultSet rs) throws SQLException {
-        this(
-            rs.getInt("id"),
-            new Prefixo<String,Integer>(null, null),
-            rs.getString("marca"),
-            rs.getString("modelo"),
-            Companhia.getComapnhiaById(rs.getInt("id_companhia")),
-            rs.getString("capacidade")
-        );
-    }
+    // public Aviao(ResultSet rs) throws SQLException {
+    // this(
+    // rs.getInt("id"),
+    // new Prefixo<String, Integer>(null, null),
+    // rs.getString("marca"),
+    // rs.getString("modelo"),
+    // Companhia.getComapnhiaById(rs.getInt("id_companhia")),
+    // rs.getString("capacidade"));
+    // }
 
-    public Aviao(
-        Prefixo<String, Integer> prefixo,
-        String marca,
-        String modelo,
-        Companhia companhia,
-        String capacidade
-    ) {
-        this(0, prefixo, marca, modelo, companhia, capacidade);
+    // public Aviao(
+    // Prefixo<String, Integer> prefixo,
+    // String marca,
+    // String modelo,
+    // Companhia companhia,
+    // String capacidade) {
+    // this(0, prefixo, marca, modelo, companhia, capacidade);
 
-        insertAviaoS(this);
+    // insertAviaoS(this);
+    // }
+
+    //public Aviao(ResultSet rs) {
+     //   this.rs = rs;
+    //}
+
+    public Aviao(ResultSet rs2) {
     }
 
     public Prefixo<String, Integer> getPrefixo() {
@@ -94,16 +99,16 @@ public class Aviao extends Aeronave {
         this.capacidade = capacidade;
     }
 
-    public void setCompanhia(Companhia companhia) {
+    public void setCompanhia( String companhia) {
         this.companhia = companhia;
     }
 
-    public Companhia getCompanhia() {
+    public String getCompanhia() {
         return this.companhia;
     }
 
     public Boolean verificaPrefixo(Prefixo<String, Integer> prefixo) {
-        for (Aviao aviao : aviaos) {
+        for (Aviao aviao : avioes) {
             if (aviao.getPrefixo().equals(prefixo) == true) {
                 return true;
             }
@@ -112,7 +117,7 @@ public class Aviao extends Aeronave {
     }
 
     public static Aviao getAviaoById(int id) {
-        for (Aviao aviao : Aviao.aviaos) {
+        for (Aviao aviao : Aviao.avioes) {
             if (aviao.id == id) {
                 return aviao;
             }
@@ -122,9 +127,9 @@ public class Aviao extends Aeronave {
     }
 
     public static Aviao deleteAviaoById(int id) {
-        for (Aviao aviao : Aviao.aviaos) {
+        for (Aviao aviao : Aviao.avioes) {
             if (aviao.id == id) {
-                Aviao.aviaos.remove(aviao);
+                Aviao.avioes.remove(aviao);
                 return aviao;
             }
         }
@@ -133,16 +138,15 @@ public class Aviao extends Aeronave {
 
     @Override
     public String toString() {
-        return super.toString() + "| Id: " + this.id + "Placa: " + this.prefixo + "| Marca: " + this.marca
-                + "| Modelo: " + this.modelo + "| Capacidade: " + this.capacidade + " | IdCompanhia: " + this.companhia;
+        Companhia companhia = Companhia.getComapnhiaById(this.companhia);
+        return super.toString() + "Placa: " + this.prefixo + "| Capacidade: " + this.capacidade + " | Companhia: "
+                + companhia.getNome();
     }
 
-    
     public static void printAviao(
-        ArrayList<Aviao> aviaos
-    ) {
+            ArrayList<Aviao> avioes) {
         try {
-            for (Aviao aviao : aviaos) {
+            for (Aviao aviao : avioes) {
                 System.out.println(aviao);
             }
         } catch (Exception e) {
@@ -158,49 +162,49 @@ public class Aviao extends Aeronave {
             System.out.println("Banco de Dados conectado");
             System.out.println("Mostrando dados presente no banco de dados");
             ResultSet rs = stm.executeQuery("SELECT * FROM aviao;");
-            ArrayList<Aviao> aviaos = new ArrayList<>();
+            ArrayList<Aviao> avioes = new ArrayList<>();
             while (rs.next()) {
-                aviaos.add(
-                    new Aviao(rs)
-                );
+                avioes.add(
+                        new Aviao(rs));
             }
             DAO.deleteConnect();
-            return aviaos;
+            return avioes;
         } catch (Exception e) {
             throw new Exception(e.getMessage());
-        }             
+        }
     }
 
     public static Aviao getAviaoInsert(Scanner scanner) {
-        
+
         System.out.println("Informe a marca do Aviao");
         String marca = scanner.next();
         System.out.println("Informe o modelo do Aviao");
         String modelo = scanner.next();
         System.out.println("Informe a capacidade do Aviao");
         String capacidade = scanner.next();
+        return null;
 
-        return new Aviao(
-            new Prefixo<String,Integer>(null, null),
-            marca,
-            modelo,
-            (Companhia) null,
-            capacidade
-        );
+      //  return new Aviao(
+       //         new Prefixo<String, Integer>(null, null),
+          //      marca,
+        //        modelo,
+            //    (Companhia) null,
+            //    capacidade);
     }
 
     public static void insertAviaoS(Aviao aviao) {
-        try{
+        try {
             System.out.println("Conectando ao banco de dados");
             Connection con = DAO.getConnect();
             Statement stm = con.createStatement();
             System.out.println("Banco de Dados conectado");
             System.out.println("Inserindo dados no banco de dados");
             stm.execute("Insert into aviao "
-                + "(marca, modelo, capacidade,companhia) VALUES "
-                + "('"+aviao.getMarca()+"', '"+aviao.getModelo()+"', '"+aviao.getCapacidade()+"', '"+aviao.getCompanhia().getId()+"')");
+                    + "(marca, modelo, capacidade,companhia) VALUES "
+                    + "('" + aviao.getMarca() + "', '" + aviao.getModelo() + "', '" + aviao.getCapacidade() + "', '"
+                    + aviao.getCompanhia().getId() + "')");
             System.out.println("Dados inseridos com sucesso");
-            System.out.println(aviao); 
+            System.out.println(aviao);
             DAO.deleteConnect();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -222,26 +226,26 @@ public class Aviao extends Aeronave {
         }
     }
 
-    public static void updateAviaoS(Aviao aviao) throws Exception {
+    public static void updateAviao(Aviao aviao) throws Exception {
         try {
             System.out.println("Conectando ao banco de dados");
             Connection con = DAO.getConnect();
             Statement stm = con.createStatement();
             System.out.println("Banco de Dados conectado");
             stm.execute("UPDATE aviao SET "
-                + " marca = '" + aviao.getMarca() + "'"
-                + ", modelo = '" + aviao.getModelo() + "'"
-                + ", capacidade = '" + aviao.getCapacidade() + "'"
-                + ", id_companhia = '" + aviao.getCompanhia().getId()+ "'"
-                + " WHERE id = " + aviao.getId());
-                System.out.println("Dados atualizados com sucesso"); 
+                    + " marca = '" + aviao.getMarca() + "'"
+                    + ", modelo = '" + aviao.getModelo() + "'"
+                    + ", capacidade = '" + aviao.getCapacidade() + "'"
+                    + ", id_companhia = '" + aviao.getCompanhia().getId() + "'"
+                    + " WHERE id = " + aviao.getId());
+            System.out.println("Dados atualizados com sucesso");
             DAO.deleteConnect();
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
 
-    public static Aviao getAviao(Scanner scanner) throws Exception { 
+    public static Aviao getAviao(Scanner scanner) throws Exception {
         try {
             System.out.println("Informe o ID do aviao: ");
             int id = scanner.nextInt();
@@ -251,11 +255,11 @@ public class Aviao extends Aeronave {
             System.out.println("Banco de Dados conectado");
 
             ResultSet rs = stm.executeQuery("SELECT * FROM aviao WHERE id = " + id);
-            
-            if(!rs.next()) {
+
+            if (!rs.next()) {
                 throw new Exception("Id inválido");
             }
-            
+
             Aviao aviao = new Aviao(rs);
             DAO.deleteConnect();
             return aviao;
@@ -272,8 +276,8 @@ public class Aviao extends Aeronave {
             System.out.println("Deletando Dados do banco");
             PreparedStatement pStm = con.prepareStatement("DELETE FROM aviao WHERE id = ?");
             pStm.setInt(1, aviao.getId());
-            System.out.println("Dados deletado com sucesso");  
-            if(pStm.executeUpdate() <= 0) {
+            System.out.println("Dados deletado com sucesso");
+            if (pStm.executeUpdate() <= 0) {
                 System.out.println("Falha na execução.");
             }
             DAO.deleteConnect();
