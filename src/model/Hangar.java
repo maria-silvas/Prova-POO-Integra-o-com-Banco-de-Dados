@@ -1,4 +1,3 @@
-
 package model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,15 +8,12 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 import database.DAO;
-
 public class Hangar {
     
     private static int id;
     private String local;
     private int idAviao;
     private Aviao aviao;
-    private LocalDate data;
-    private LocalTime hora;
     //private LocalDate data;
     //private LocalTime hora;
     private static Prefixo<String, Integer> hangar;
@@ -98,9 +94,9 @@ public class Hangar {
         this.local = local;
     }
 
-    
+    /* 
     public LocalDate getData() {
-        return getData();
+        return data;
     }
 
     public void setData(LocalDate data) {
@@ -108,17 +104,13 @@ public class Hangar {
     }
 
     public LocalTime getHora() {
-        return getHora();
-    }
-
-    public String getHangar() {
-        return local;
+        return hora;
     }
 
     public void setHora(LocalTime hora) {
         this.hora = hora;
-    
-   
+    }
+    */
 
 
     public static Prefixo<String, Integer> getHangar() {
@@ -137,7 +129,7 @@ public class Hangar {
     }
 
 
-    public static Hangar getHangarId(int id) {
+    public static Hangar getHangarById(int id) {
         for (Hangar hangar : Hangar.hangares) {
             if (hangar.id == id) {
                 return hangar;
@@ -148,7 +140,7 @@ public class Hangar {
     }
 
 
-    public static Hangar deleteHangarId(int id) {
+    public static Hangar deleteHangarById(int id) {
         for (Hangar hangar : Hangar.hangares) {
             if (hangar.id == id) {
                 hangar.hangares.remove(hangar);
@@ -171,7 +163,7 @@ public class Hangar {
         }
     }
 
-    public static ArrayList<Hangar> getHangar () throws Exception {
+    public static ArrayList<Hangar> getAviaoS() throws Exception {
         try {
             System.out.println("Conectando ao banco de dados");
             Connection con = DAO.getConnect();
@@ -191,7 +183,7 @@ public class Hangar {
     }
 
 
-    public static Hangar getHangarInsert(Scanner scanner) {
+    public static Hangar getAviaoInsert(Scanner scanner) {
         
         System.out.println("Informe o local do Hangar");
         String local= scanner.next();
@@ -201,7 +193,7 @@ public class Hangar {
 
     }
 
-    public static void insertHangar(Hangar hangar) {
+    public static void insertHangarS(Hangar hangar) {
         try{
             System.out.println("Conectando ao banco de dados");
             Connection con = DAO.getConnect();
@@ -233,7 +225,7 @@ public class Hangar {
     }
 
 
-    public static void updateHangar(Hangar hangar) throws Exception {
+    public static void updateHangarS(Hangar hangar) throws Exception {
         try {
             System.out.println("Conectando ao banco de dados");
             Connection con = DAO.getConnect();
@@ -272,7 +264,7 @@ public class Hangar {
         }
     }
 
-    public static void deleteHangarById(Hangar hangar) {
+    public static void deleteCompanhiaPS(Hangar hangar) {
         try {
             System.out.println("Conectando ao banco de dados");
             Connection con = DAO.getConnect();
