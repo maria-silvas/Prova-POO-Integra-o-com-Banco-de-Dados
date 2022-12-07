@@ -79,7 +79,7 @@ public class Pista {
         }
     }
 
-    public static ArrayList<Pista> getAviaoS() throws Exception {
+    public static ArrayList<Pista> getPista() throws Exception {
         try {
             System.out.println("Conectando ao banco de dados");
             Connection con = DAO.getConnect();
@@ -200,6 +200,6 @@ public class Pista {
 
 
 
-    
+
 
 }

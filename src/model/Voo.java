@@ -22,8 +22,11 @@ public class Voo {
     private int idAeronave;
     private int idAviao;
     private int idHelicoptero;
+    private Helicoptero helicoptero;
     private int idJato;
-    private int Jato Jato;
+    private Jato jato;
+    private int idCompanhia;
+    private Companhia companhia;
 
     public static ArrayList<Voo> voos = new ArrayList<Voo>();
 
@@ -42,6 +45,8 @@ public class Voo {
         this.idAviao = idAviao;
         this.idHelicoptero = idHelicoptero;
         this.idJato = idJato;
+        this.idCompanhia = idCompanhia;
+       
     }
     // Colocanado atributos no construtor
     public Voo(int id,
@@ -205,7 +210,7 @@ public class Voo {
         return null;
     }
 
-    public static Voo deleteVooById(int id) {
+    public static Voo deleteVooId(int id) {
         for (Voo voo : Voo.voos) {
             if (voo.id == id) {
                 Voo.voos.remove(voo);
@@ -216,10 +221,10 @@ public class Voo {
         return null;
     }
 
-     public static Prefixo<String, Integer> deleteHangarById(int id) {
-        for (Hangar hangares : Hangar.hangares) {
-            if (hangares.getId() == id) {
-                Hangar.hangares.remove(hangares);
+     public static Prefixo<String, Integer> deleteVooById(int id) {
+        for (Voo voos : Voo.voos) {
+            if (voos.getId() == id) {
+                Voo.voos.remove(voos);
             }
         }
 
@@ -227,12 +232,12 @@ public class Voo {
     }
 
 
-    public static void printAviao(
-        ArrayList<Hangar> aviaos
+    public static void printVoo(
+        ArrayList<Voo> aviaos
     ) {
         try {
-            for (Hangar hangar : aviaos) {
-                System.out.println(hangar);
+            for (Voo voo : aviaos) {
+                System.out.println(voo);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

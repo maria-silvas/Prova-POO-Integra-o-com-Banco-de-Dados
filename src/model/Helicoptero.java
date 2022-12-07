@@ -79,7 +79,7 @@ public class Helicoptero extends Aeronave {
         }
     }
 
-    public static ArrayList<Helicoptero> getHalicopteroS() throws Exception {
+    public static ArrayList<Helicoptero> getHalicoptero() throws Exception {
         try {
             System.out.println("Conectando ao banco de dados");
             Connection con = DAO.getConnect();
@@ -116,7 +116,7 @@ public class Helicoptero extends Aeronave {
         return helicoptero;
     }
 
-    public static void insertHelicopteroS(Helicoptero helicoptero) {
+    public static void insertHelicoptero(Helicoptero helicoptero) {
         try {
             System.out.println("Conectando ao banco de dados");
             Connection con = DAO.getConnect();
@@ -147,7 +147,7 @@ public class Helicoptero extends Aeronave {
         }
     }
 
-    public static void updateHelicopteroS(Helicoptero helicoptero) throws Exception {
+    public static void updateHelicoptero(Helicoptero helicoptero) throws Exception {
         try {
             System.out.println("Conectando ao banco de dados");
             Connection con = DAO.getConnect();
@@ -188,7 +188,7 @@ public class Helicoptero extends Aeronave {
         }
     }
 
-    public static void deleteHelicopteroS(Helicoptero helicoptero) {
+    public static void deleteHelicoptero(Helicoptero helicoptero) {
         try {
             System.out.println("Conectando ao banco de dados");
             Connection con = DAO.getConnect();

@@ -23,6 +23,8 @@ import model.Voo;;
 // Criando o programa principal do sistema.
 public class Aeroporto {
 
+    private static Scanner sc;
+
     public static void main(String[] args) throws Exception {
         // Criando os menus de escolha do Crud
         Scanner sc = new Scanner(System.in);
@@ -36,33 +38,38 @@ public class Aeroporto {
 
             System.out.println("\n\n[01] - Cadastrar Aviao");
             System.out.println("[02] - Cadastrar Jato");
-            System.out.println("[03] - CadastrarHelicoptero");
+            System.out.println("[03] - Cadastrar Helicoptero");
             System.out.println("[04] - Cadastrar Hangar");
             System.out.println("[05] - Cadastrar Companhia");
             System.out.println("[06] - Cadastrar Pista");
             System.out.println("[07] - Cadastrar VOO");
-            System.out.println("[08] - Inserir Aviao");
-            System.out.println("[09] - Inserir Jato");
-            System.out.println("[10] - InserirHelicoptero");
-            System.out.println("[11] - Inserir Hangar");
-            System.out.println("[12] - Inserir Companhia");
-            System.out.println("[13] - Inserir Pista");
-            System.out.println("[14] - Inserir VOO");
-            System.out.println("[15] - Listar Aviao");
-            System.out.println("[16] - Listar Jato");
-            System.out.println("[17] - ListarHelicoptero");
-            System.out.println("[18] - Listar Hangar");
-            System.out.println("[19] - Listar Companhia");
-            System.out.println("[20] - Listar Pista");
-            System.out.println("[21] - Listar VOO");
-            System.out.println("[22] - Excluir Aviao");
-            System.out.println("[23] - Excluir Jato");
-            System.out.println("[24] - ExcluirHelicoptero");
-            System.out.println("[25] - Excluir Hangar");
-            System.out.println("[26] - Excluir Companhia");
-            System.out.println("[27] - Excluir Pista");
-            System.out.println("[28] - Excluir VOO");
-            System.out.println("[29] - Sair");
+            System.out.println("*********************");
+            System.out.println("[08] - Listar Aviao");
+            System.out.println("[09] - Listar Jato");
+            System.out.println("[10] - Listar Helicoptero");
+            System.out.println("[11] - Listar Hangar");
+            System.out.println("[12] - Listar Companhia");
+            System.out.println("[13] - Listar Pista");
+            System.out.println("[14] - Listar VOO");
+            System.out.println("*********************");
+            System.out.println("[15] - Excluir Aviao");
+            System.out.println("[16] - Excluir Jato");
+            System.out.println("[17] - Excluir Helicoptero");
+            System.out.println("[18] - Excluir Hangar");
+            System.out.println("[19] - Excluir Companhia");
+            System.out.println("[20] - Excluir Pista");
+            System.out.println("[21] - Excluir VOO");
+            System.out.println("*********************");
+            System.out.println("[22] - Alterar Aviao");
+            System.out.println("[23] - Alterar Jato");
+            System.out.println("[24] - Alterar Helicoptero");
+            System.out.println("[25] - Alterar Hangar");
+            System.out.println("[26] - Alterar Companhia");
+            System.out.println("[27] - Alterar Pista");
+            System.out.println("[28] - Alterar VOO");
+            System.out.println("[29] - Salvar arquivo");
+            System.out.println("[20] - Sair");
+
             op = sc.nextInt();
 
             System.out.println("\n");
@@ -85,7 +92,7 @@ public class Aeroporto {
                 }
 
                 case 3: {
-                    CadastrarHelicopetero(sc);
+                    CadastrarHelicoptero(sc);
                     break;
                 }
 
@@ -107,11 +114,69 @@ public class Aeroporto {
                     break;
                 }
                 case 8: {
-                    InserirAviao(sc, null);
+                    ListarAviao(gravarArq);
                     break;
                 }
-                case 16: {
+                case 9: {
                     ListarJato(gravarArq);
+                    break;
+                }
+                case 10: {
+                    ListarHelicopetero(gravarArq);
+                    break;
+                }
+                case 11: {
+                    ListarHangar(gravarArq);
+                    break;
+                }
+                case 12: {
+                    ListarCompanhia(gravarArq);
+                    break;
+                }
+                case 13: {
+                    ListarPista(gravarArq);
+                    break;
+                }
+                case 14: {
+                    ListarVoo(gravarArq);
+                    break;
+                }
+
+                case 15: {
+                    ExcluirAviao(sc);
+                    break;
+                }
+
+                case 16: {
+                    ExcluirJato(gravarArq);
+                    break;
+                }
+
+                case 17: {
+                    ExcluirHelicopetero(sc);
+                    break;
+                }
+
+                case 18: {
+                    ExcluirHangar(sc);
+                    break;
+                }
+
+                case 19: {
+                    ExcluirCompanhia(sc);
+                    break;
+                }
+
+                case 20: {
+                    ExcluirPista(sc);
+                    break;
+                }
+                case 21: {
+                    ExcluirVoo(sc);
+                    break;
+                }
+                case 22: {
+                    AlterarAviao(sc);
                     break;
                 }
 
@@ -134,6 +199,9 @@ public class Aeroporto {
             }
 
         } while (op != 29);
+    }
+
+    private static void AlterarAviao(Scanner sc) {
     }
 
     private static void InserirAviao(Scanner sc, Object object) {
@@ -180,7 +248,7 @@ public class Aeroporto {
         if (prefixoVerificada == true) {
             Prefixo<String, Integer> prefixo = new Prefixo<String, Integer>(letra, Integer.parseInt(numero));
             try {
-                Aviao aviao = new Aviao(Aviao.avioes.size() + 1, prefixo, marca, modelo, companhia, capacidade);
+                Aviao aviao = new Aviao(null);
                 while (aviao.getPrefixo() == null) {
                     int idAviao = aviao.getId();
                     System.out.println("Já cadastrada");
@@ -195,7 +263,7 @@ public class Aeroporto {
                             break;
                         }
                     }
-                    aviao = new Aviao(Aviao.avioes.size() + 1, prefixo, marca, modelo, companhia, capacidade);
+                    aviao = new Aviao(null);
                 }
                 System.out.println("Aviao cadastrado com sucesso!\n" + aviao);
             } catch (Exception e) {
@@ -221,28 +289,29 @@ public class Aeroporto {
         System.out.println("Informe a velocidade da Jato: ");
         int velocidade = scanner.nextInt();
 
-        Aeronave jato = new Jato<>(Jato.jatos.size() + 1, marca, cor, modelo, velocidade);
+        Aeronave jato = new Jato (Jato.jatos.size() + 1, marca, cor, modelo, velocidade);
         System.out.println("Jato cadastrado com sucesso!\n" + jato);
+
     }
 
-    public static void CadastrarHelicopetero(Scanner scanner) {
-        System.out.println("------Cadastro deHelicoptero------");
+    public static void CadastrarHelicoptero(Scanner scanner) {
+        System.out.println("------Cadastro de Helicoptero------");
 
-        System.out.println("Informe a marca doHelicoptero: ");
+        System.out.println("Informe a marca do Helicoptero: ");
         String marca = scanner.next();
 
-        System.out.println("Informe o modelo doHelicoptero: ");
+        System.out.println("Informe o modelo do Helicoptero: ");
         String modelo = scanner.next();
 
-        System.out.println("Informe a cor doHelicoptero: ");
+        System.out.println("Informe a cor do Helicoptero: ");
         String cor = scanner.next();
 
-        System.out.println("Informe a Capacidade doHelicoptero: ");
+        System.out.println("Informe a Capacidade do Helicoptero: ");
         int capacidade = scanner.nextInt();
 
         Aeronave helicopetero = new Helicoptero(Helicoptero.helicopteros.size() + 1, marca, modelo, cor, capacidade);
 
-        System.out.println("HelicHelicoptero cadastrado com sucesso!\n" + helicopetero);
+        System.out.println("Helicoptero cadastrado com sucesso!\n" + helicopetero);
     }
 
     public static void CadastrarCompanhia(Scanner scanner) {
@@ -256,7 +325,7 @@ public class Aeroporto {
 
         Companhia companhia = new Companhia(Companhia.companhias.size() + 1, nome, cnpj);
 
-        System.out.println("Jato cadastrado com sucesso!\n" + companhia);
+        System.out.println("Companhia cadastrado com sucesso!\n" + companhia);
     }
 
     public static void CadastrarPista(Scanner scanner, String letra) {
@@ -292,53 +361,7 @@ public class Aeroporto {
 
         Pista pista = new Pista(+1, numero);
 
-        // boolean prefixoVerificada = false;
-        // while (prefixoVerificada != true) {
-        // if (letra.length() == 1 && numero.length() == 2) {
-        // prefixoVerificada = true;
-        // } else if (letra.length() != 3 && numero.length() == 4) {
-        // System.out.println("Digite as letras da pista novamente: ");
-        // letra = sc.next();
-        // } else if (letra.length() == 3 && numero.length() != 4) {
-        // System.out.println("Digite os números da pista novamente ");
-        // numero = sc.next();
-        // } else {
-        // System.out.println("Digite as letras da pista novamente");
-        // letra = sc.next();
-        // System.out.println("Digite os numeros da pista novamente");
-        // numero = sc.next();
-        // }
-        // }
-
-        // if (prefixoVerificada == true) {
-        // Prefixo<String, Integer> prefixo = new Prefixo<String, Integer>(letra,
-        // Integer.parseInt(numero));
-        // try {
-        // // Pista pista = new Pista(+1, numero);
-        // while (pista.getPrefixo() == null) {
-        // int idPista = pista.getId();
-        // System.out.println("Já cadastrada");
-        // System.out.println("Digite as letras da prefixo novamente");
-        // letra = scanner.next();
-        // System.out.println("Digite os numeros da prefixo novamente");
-        // numero = scanner.next();
-        // prefixo = new Prefixo<String, Integer>(letra, Integer.parseInt(numero));
-        // for (Pista pistas : Pista.pistas) {
-        // if (pistas instanceof Pista && pista.getId() == idPista) {
-        // Pista.pistas.remove(pista);
-        // break;
-        // }
-        // }
-        // // Pista pistas.add(Pista.pistas.size() + 1, numero);
-        // Pista pista2 = new Pista(Pista.pistas.size() + 1, numero);
-        // }
-
-        // System.out.println("Pista cadastrado com sucesso!\n" + pista);
-        // } catch (Exception e) {
-        // System.out.println("Erro ao cadastrar pista: " + e.getMessage());
-        // }
-
-        // }
+        
     }
 
     public static void CadastrarVoo(Scanner sc) {
@@ -375,7 +398,8 @@ public class Aeroporto {
         System.out.println("Informe o id da Aeronave: ");
         int idAeronave = sc.nextInt();
 
-        Voo voo = new Voo(Voo.voos.size() + 1,numero, data, hora, origem, destino, piloto, copiloto, observacao, idPista,
+        Voo voo = new Voo(Voo.voos.size() + 1, numero, data, hora, origem, destino, piloto, copiloto, observacao,
+                idPista,
                 idAeronave);
     }
 
@@ -391,7 +415,7 @@ public class Aeroporto {
     }
 
     // Listagens das classes abaixo
-    public static void ListarAviao(Scanner sc) {
+    public static void ListarAviao(PrintWriter gravarArq) {
         System.out.println("------Listagem de Aviao------");
         for (Aeronave aeronave : Aeronave.aeoronaves) {
             if (aeronave instanceof Aviao) {
@@ -412,8 +436,8 @@ public class Aeroporto {
 
     }
 
-    public static void ListarHelicopetero(Scanner sc) {
-        System.out.println("------Listagem deHelicoptero------");
+    public static void ListarHelicopetero(PrintWriter gravarArq) {
+        System.out.println("------Listagem de Helicoptero------");
 
         for (Aeronave helicopetero : Aeronave.aeoronaves) {
             if (helicopetero instanceof Helicoptero) {
@@ -423,7 +447,7 @@ public class Aeroporto {
 
     }
 
-    public static void ListarHangar(Scanner sc) {
+    public static void ListarHangar(PrintWriter gravarArq) {
         System.out.println("------Listagem de Hangar------");
 
         for (Hangar hangar : Hangar.hangares) {
@@ -434,7 +458,7 @@ public class Aeroporto {
 
     }
 
-    public static void ListarCompanhia(Scanner sc) {
+    public static void ListarCompanhia(PrintWriter gravarArq) {
         System.out.println("------Listagem de Companhia------");
 
         for (Companhia companhia : Companhia.companhias) {
@@ -445,7 +469,7 @@ public class Aeroporto {
 
     }
 
-    public static void ListarPista(Scanner sc) {
+    public static void ListarPista(PrintWriter gravarArq) {
         System.out.println("------Listagem de Pista------");
 
         for (Pista pista : Pista.pistas) {
@@ -456,7 +480,7 @@ public class Aeroporto {
         ;
     }
 
-    public static void ListarVoo(Scanner sc) {
+    public static void ListarVoo(PrintWriter gravarArq) {
         System.out.println("------Listagem de VOO------");
         for (Voo voo : Voo.voos) {
             if (voo instanceof Voo) {
@@ -482,10 +506,11 @@ public class Aeroporto {
         }
     }
 
-    public static void ExcluirJato(Scanner sc) {
+    public static void ExcluirJato(PrintWriter gravarArq) {
         System.out.println("------Exclusão de Jato------");
 
-        System.out.println("Informe o ID de Jato: ");
+     
+        System.out.println("Informe o ID do Jato: ");
         int id = sc.nextInt();
 
         for (Jato jato : Jato.jatos) {
@@ -498,15 +523,15 @@ public class Aeroporto {
     }
 
     public static void ExcluirHelicopetero(Scanner sc) {
-        System.out.println("------Exclusão deHelicoptero------");
+        System.out.println("------Exclusão de Helicoptero------");
 
-        System.out.println("Informe o ID doHelicoptero: ");
+        System.out.println("Informe o ID do Helicoptero: ");
         int id = sc.nextInt();
 
-        for (Helicoptero helicopetero :Helicoptero.helicopteros) {
+        for (Helicoptero helicopetero : Helicoptero.helicopteros) {
             if (helicopetero instanceof Helicoptero && helicopetero.getId() == id) {
-               Helicoptero.helicopteros.remove(helicopetero);
-                System.out.println("HelicHelicoptero excluído com sucesso!");
+                Helicoptero.helicopteros.remove(helicopetero);
+                System.out.println("Helicoptero excluído com sucesso!");
                 break;
             }
         }
@@ -571,4 +596,8 @@ public class Aeroporto {
             }
         }
     }
+
+    // ALTERAÇÃO
+
+
 }

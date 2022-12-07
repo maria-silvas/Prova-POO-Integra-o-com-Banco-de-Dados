@@ -3,55 +3,63 @@ package model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import com.mysql.cj.xdevapi.Statement;
-
 import database.DAO;
 
 public class Companhia {
-    private String nome;
-    private String cnpj;
-    private int id;
-
+    public int id;
+    public String nome;
+    public String cnpj;
     public static ArrayList<Companhia> companhias = new ArrayList<Companhia>();
+
+    public Companhia() {
+
+    }
 
     public Companhia(int id, String nome, String cnpj) {
         this.id = id;
         this.nome = nome;
         this.cnpj = cnpj;
-
-        companhias.add(this);
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public Companhia(String nome, String cnpj) {
 
-    public void setNome(String nome) {
         this.nome = nome;
+        this.cnpj = cnpj;
     }
 
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
+    public Companhia(ResultSet rs) {
     }
 
     public int getId() {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getNome() {
-        return this.nome;
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getCnpj() {
         return cnpj;
     }
 
-    public static Companhia getComapnhiaById(Companhia companhia2) {
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
+    }
+
+    public static Companhia getCompanhiaById(int id) {
         for (Companhia companhia : Companhia.companhias) {
-            if (companhia.id == companhia.id) {
+            if (companhia.id == id) {
                 return companhia;
             }
         }
@@ -59,7 +67,7 @@ public class Companhia {
         return null;
     }
 
-    public static Companhia deleteComapnhiaById(int id) {
+    public static Companhia deleteCompanhiaById(int id) {
         for (Companhia companhia : Companhia.companhias) {
             if (companhia.id == id) {
                 Companhia.companhias.remove(companhia);
@@ -70,12 +78,7 @@ public class Companhia {
         return null;
     }
 
-    @Override
-    public String toString() {
-        return "Id: " + this.id + "Nome: " + this.nome + "| Cnpj:" + this.cnpj;
-    }
-
-    public static void printAviao(
+    public static void printCompanhia(
             ArrayList<Companhia> companhias) {
         try {
             for (Companhia companhia : companhias) {
@@ -86,27 +89,7 @@ public class Companhia {
         }
     }
 
-    // public static ArrayList<Companhia> getAviaoS() throws Exception {
-    // try {
-    // System.out.println("Conectando ao banco de dados");
-    // Connection con = DAO.getConnect();
-    // Statement stm = con.createStatement();
-    // System.out.println("Banco de Dados conectado");
-    // System.out.println("Mostrando dados presente no banco de dados");
-    // ResultSet rs = stm.executeQuery("SELECT * FROM companhia;");
-    // ArrayList<Companhia> companhias = new ArrayList<>();
-    // while (rs.next()) {
-    // companhias.add(
-    // new Companhia(rs));
-    // }
-    // DAO.deleteConnect();
-    // return companhias;
-    // } catch (Exception e) {
-    // throw new Exception(e.getMessage());
-    // }
-    // }
-
-    public static Companhia getAviaoInsert(Scanner scanner) {
+    public static Companhia getCompanhiaInsert(Scanner scanner) {
 
         System.out.println("Informe o nome da Companhia");
         String nome = scanner.next();
@@ -116,16 +99,16 @@ public class Companhia {
         return new Companhia(0, nome, cnpj);
     }
 
-    public static void insertCompanhiaS(Companhia companhia) {
+    public static void insertCompanhia(Companhia companhia) {
         try {
             System.out.println("Conectando ao banco de dados");
             Connection con = DAO.getConnect();
-            Statement stm = (Statement) con.createStatement();
+            Statement stm = con.createStatement();
             System.out.println("Banco de Dados conectado");
             System.out.println("Inserindo dados no banco de dados");
             stm.execute("Insert into companhia "
                     + "(nome,cnpj) VALUES "
-                    + "('" + companhia.getNome() + "', '" + companhia.getCnpj().getId() + "')");
+                    + "('" + companhia.getNome() + "', '" + companhia.getCnpj() + "')");
             System.out.println("Dados inseridos com sucesso");
             System.out.println(companhia);
             DAO.deleteConnect();
@@ -134,31 +117,29 @@ public class Companhia {
         }
     }
 
-    public static Companhia getAviaoUpdate(Scanner scanner) throws Exception {
+    public static Companhia getCompanhiaUpdate(Scanner scanner) throws Exception {
         try {
-            Companhia companhia = getAviao(scanner);
-            System.out.println("Informe a marca do companhia");
-            String marca = scanner.next();
-            System.out.println("Informe o modelo do Companhia");
-            String modelo = scanner.next();
-            System.out.println("Informe a capacidade do Companhia");
-            String capacidade = scanner.next();
+            Companhia companhia = getCompanhia(scanner);
+            System.out.println("Informe a nome da companhia");
+            String nome = scanner.next();
+            System.out.println("Informe a CNPJ do Companhia");
+            String cnpj = scanner.next();
+
             return companhia;
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
 
-    public static void updateAviaoS(Companhia companhia) throws Exception {
+    public static void updateComapanhia(Companhia companhia) throws Exception {
         try {
             System.out.println("Conectando ao banco de dados");
             Connection con = DAO.getConnect();
             Statement stm = con.createStatement();
             System.out.println("Banco de Dados conectado");
             stm.execute("UPDATE companhia SET "
-                    + " marca = '" + companhia.getMarca() + "'"
-                    + ", modelo = '" + companhia.getModelo() + "'"
-                    + ", capacidade = '" + companhia.getCapacidade() + "'"
+                    + " marca = '" + companhia.getNome() + "'"
+                    + ", modelo = '" + companhia.getCnpj() + "'"
                     + ", id_companhia = '" + companhia.getCompanhia().getId() + "'"
                     + " WHERE id = " + companhia.getId());
             System.out.println("Dados atualizados com sucesso");
@@ -168,7 +149,24 @@ public class Companhia {
         }
     }
 
-    public static Companhia getAviao(Scanner scanner) throws Exception {
+    private Companhia getCompanhia() {
+        return null;
+    }
+
+    private String getCapacidade() {
+        return null;
+    }
+
+    private String getModelo() {
+        return null;
+    }
+
+    private String getMarca() {
+        return null;
+    }
+
+    public static Companhia getCompanhia(Scanner scanner) throws Exception {
+
         try {
             System.out.println("Informe o ID do companhia: ");
             int id = scanner.nextInt();
@@ -191,7 +189,7 @@ public class Companhia {
         }
     }
 
-    public static void deleteAviaoPS(Companhia companhia) {
+    public static void deleteCompanhia(Companhia companhia) {
         try {
             System.out.println("Conectando ao banco de dados");
             Connection con = DAO.getConnect();
@@ -207,6 +205,11 @@ public class Companhia {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "| Id: " + this.id + " | Nome: " + this.nome + " | Cnpj: " + this.cnpj;
     }
 
 }

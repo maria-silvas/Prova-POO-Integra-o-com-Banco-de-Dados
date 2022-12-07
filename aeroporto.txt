@@ -1,4 +1,0 @@
------Listagem dos Jatos-----
-Id: 1 | Marca: mercedes | Modelo: mc-1230| Cor: vermelho| Velocidade: 700
------Listagem dos Jatos-----
-Id: 2 | Marca: mercedes | Modelo: mc-12032| Cor: cinza| Velocidade: 900

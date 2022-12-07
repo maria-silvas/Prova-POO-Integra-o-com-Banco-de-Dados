@@ -2,11 +2,13 @@ package model;
 
 import java.util.ArrayList;
 
+import database.DAO;
+
 public abstract class Aeronave {
 
     protected int id;
     protected String marca;
-    protected String modelo;
+    protected static String modelo;
 
     public static ArrayList<Aeronave> aeoronaves = new ArrayList<Aeronave>();
     public static Aeronave[] aeronaves;
