@@ -1,29 +1,58 @@
 package model;
 
-import database.DAO;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Scanner;
+
+import database.DAO;
 
 public class Pista {
-    private String numero;
 
     private int id;
+    private Generic<String, Integer> generic;
+    private String numero;
 
     public static ArrayList<Pista> pistas = new ArrayList<Pista>();
 
-    public Pista(int id, String numero) {
-        this.numero = numero;
-        this.id = id;
+    public Pista() {
 
-        pistas.add(this);
     }
 
-    public Pista(ResultSet rs) {
+    public Pista(int id, Generic<String, Integer> generic) {
+        this.id = id;
+        this.generic = generic;
+
+        try {
+            PreparedStatement preparacao = DAO.createConnection()
+                    .prepareStatement("INSERT INTO pista (id, numero) VALUES (?, ?)");
+            preparacao.setInt(1, id);
+            preparacao.setString(2, numero.toString());
+            preparacao.execute();
+            preparacao.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public Pista(Generic<String, Integer> numero) {
+        this.generic = numero;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Generic<String, Integer> getNumeroGeneric() {
+        return generic;
+    }
+
+    public void setNumeroGeneric(Generic<String, Integer> numero) {
+        this.generic = numero;
     }
 
     public String getNumero() {
@@ -34,172 +63,93 @@ public class Pista {
         this.numero = numero;
     }
 
-    public static Pista getPistaById(int id) {
-        for (Pista pista : Pista.pistas) {
-            if (pista.id == id) {
-                return pista;
-            }
-        }
-
-        return null;
-    }
-
-    public static Pista deletePistaById(int id) {
-        for (Pista pista : Pista.pistas) {
-            if (pista.id == id) {
-                Pista.pistas.remove(pista);
-                return pista;
-            }
-        }
-
-        return null;
+    @Override
+    public String toString() {
+        return "Pista{" + "id=" + id + ", numero=" + numero.toString() + '}';
     }
 
     @Override
-    public String toString() {
-        return "ID" + this.id + "Numero" + this.numero;
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Pista other = (Pista) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if ((this.numero == null) ? (other.numero != null) : !this.numero.equals(other.numero)) {
+            return false;
+        }
+        return true;
     }
 
-    public Object getPrefixo() {
+    public static void update(int id, Generic<String, Integer> numero) {
+        try {
+            PreparedStatement prepare = DAO.createConnection()
+                    .prepareStatement("UPDATE pista SET numero = ? WHERE id = ?");
+            prepare.setString(1, numero.toString());
+            prepare.setInt(2, id);
+            prepare.execute();
+            prepare.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public static void delete(int id) {
+        try {
+            PreparedStatement prepare = DAO.createConnection().prepareStatement("DELETE FROM pista WHERE id = ?");
+            prepare.setInt(1, id);
+            prepare.execute();
+            prepare.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public static Pista getByPista(int id) {
+        Connection con = DAO.createConnection();
+        try {
+            ResultSet result = con.createStatement().executeQuery("SELECT * FROM pista WHERE id = " + id);
+            Pista pista = new Pista();
+            while (result.next()) {
+                pista.setId(result.getInt("id"));
+                pista.setNumero(result.getString("numero"));
+                return pista;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         return null;
     }
 
-    public static int getId() {
+    public static void getAll() {
+        Connection con = DAO.createConnection();
+        try {
+            ResultSet result = con.createStatement().executeQuery("SELECT * FROM pista");
+            while (result.next()) {
+                System.out.println("ID: " + result.getInt("id") + " Numero: " + result.getString("numero"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }
+
+    public static int getUltimoId() {
+        Connection con = DAO.createConnection();
+        try {
+            ResultSet result = con.createStatement().executeQuery("SELECT MAX(id) FROM pista");
+            while (result.next()) {
+                return result.getInt("MAX(id)");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         return 0;
     }
-
-    public static void printAviao(
-            ArrayList<Pista> aviaos) {
-        try {
-            for (Pista pista : aviaos) {
-                System.out.println(pista);
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public static ArrayList<Pista> getPista() throws Exception {
-        try {
-            System.out.println("Conectando ao banco de dados");
-            Connection con = DAO.getConnect();
-            Statement stm = con.createStatement();
-            System.out.println("Banco de Dados conectado");
-            System.out.println("Mostrando dados presente no banco de dados");
-            ResultSet rs = stm.executeQuery("SELECT * FROM pista;");
-            ArrayList<Pista> aviaos = new ArrayList<>();
-            while (rs.next()) {
-                aviaos.add(
-                        new Pista(rs));
-            }
-            DAO.deleteConnect();
-            return aviaos;
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
-    }
-
-    // public static Pista getAviaoInsert(Scanner scanner) {
-
-    // System.out.println("Informe o numero da Pista");
-    // String numero= scanner.next();
-
-    // return new Pista(
-    // numero,
-
-    // );
-    // }
-
-    public static void insertPista(Pista pista) {
-        try{
-            System.out.println("Conectando ao banco de dados");
-            Connection con = DAO.getConnect();
-            Statement stm = con.createStatement();
-            System.out.println("Banco de Dados conectado");
-            System.out.println("Inserindo dados no banco de dados");
-            stm.execute("Insert into Pista "
-                + "(numero) VALUES "
-                + "('"+pista.getNumero()+getId()+"')");
-            System.out.println("Dados inseridos com sucesso");
-            System.out.println(pista); 
-            DAO.deleteConnect();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public static Pista getPistaUpdate(Scanner scanner) throws Exception {
-        try {
-            Pista pista = getPista(scanner);
-            System.out.println("Informe o numero do Pista");
-            String numero = scanner.next();
-
-            return pista;
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
-    }
-
-    public static void updatePista(Pista pista) throws Exception {
-        try {
-            System.out.println("Conectando ao banco de dados");
-            Connection con = DAO.getConnect();
-            Statement stm = con.createStatement();
-            System.out.println("Banco de Dados conectado");
-            stm.execute("UPDATE pista SET "
-                    + " marca = '" + pista.getNumero() + "'"
-                    + " WHERE id = " + pista.getId());
-            System.out.println("Dados atualizados com sucesso");
-            DAO.deleteConnect();
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
-    }
-
-    public static Pista getPista(Scanner scanner) throws Exception {
-        try {
-            System.out.println("Informe o ID do pista: ");
-            int id = scanner.nextInt();
-            System.out.println("Conectando ao banco de dados");
-            Connection con = DAO.getConnect();
-            Statement stm = con.createStatement();
-            System.out.println("Banco de Dados conectado");
-
-            ResultSet rs = stm.executeQuery("SELECT * FROM pista WHERE id = " + id);
-
-            if (!rs.next()) {
-                throw new Exception("Id inválido");
-            }
-
-            Pista pista = new Pista(rs);
-            DAO.deleteConnect();
-            return pista;
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
-    }
-
-    public static void deletPista(Pista pista) {
-        try {
-            System.out.println("Conectando ao banco de dados");
-            Connection con = DAO.getConnect();
-            System.out.println("Banco de Dados conectado");
-            System.out.println("Deletando Dados do banco");
-            PreparedStatement pStm = con.prepareStatement("DELETE FROM pista WHERE id = ?");
-            pStm.setInt(1, pista.getId());
-            System.out.println("Dados deletado com sucesso");
-            if (pStm.executeUpdate() <= 0) {
-                System.out.println("Falha na execução.");
-            }
-            DAO.deleteConnect();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-
-
-
-
 
 }

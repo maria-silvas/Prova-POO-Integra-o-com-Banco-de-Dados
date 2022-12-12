@@ -23,4 +23,8 @@ public class DAO {
     public static void deleteConnect() throws SQLException {
         getConnect().close();
     }
+
+    public static Connection createConnection() {
+        return null;
+    }
 }
